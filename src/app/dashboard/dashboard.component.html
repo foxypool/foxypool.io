@@ -1,0 +1,36 @@
+<div style="display: flex;flex-direction: row;justify-content: space-between;">
+  <h1>Foxy-Pools</h1>
+</div>
+<table class="table table-dark dark-theme">
+  <thead>
+  <tr>
+    <th scope="col">Pool</th>
+    <th scope="col">Daily Reward</th>
+    <th scope="col">Won (24h)</th>
+    <th scope="col">Capacity</th>
+    <th scope="col">Miner</th>
+    <th scope="col">Machines</th>
+    <th scope="col">NetDiff</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let pool of pools">
+    <td style="width: 16em;">
+      <a href="{{pool.url}}" target="_blank">
+        <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
+          <img src="assets/{{pool.coin.toLowerCase()}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
+        </div>
+      </a>
+    </td>
+    <td>
+      {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.coin}} / PiB<br>
+      {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
+    </td>
+    <td>{{getWonRoundsPerDayOfPool(pool)}}</td>
+    <td>{{getCapacityOfPool(pool)}}</td>
+    <td>{{getMinersOfPool(pool)}}</td>
+    <td>{{getMachinesOfPool(pool)}}</td>
+    <td>{{getNetDiffOfPool(pool)}}</td>
+  </tr>
+  </tbody>
+</table>
