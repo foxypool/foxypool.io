@@ -29,17 +29,17 @@ export class PoolsService {
     },{
       coin: 'DISC',
       name: 'Foxy-Pool DISC',
-      url: 'https://disc.foxypool.cf:8443',
+      url: 'https://disc.foxypool.cf',
       color: '#209d3b',
     },{
       coin: 'HDD',
       name: 'Foxy-Pool HDD',
-      url: 'https://hdd.foxypool.cf:8443',
+      url: 'https://hdd.foxypool.cf',
       color: '#ffffff',
     },{
       coin: 'LAVA',
       name: 'Foxy-Pool LAVA',
-      url: 'https://lava.foxypool.cf:8443',
+      url: 'https://lava.foxypool.cf',
       color: '#ffffff',
     },{
       coin: 'LHD',
@@ -49,7 +49,7 @@ export class PoolsService {
     },{
       coin: 'XHD',
       name: 'Foxy-Pool XHD',
-      url: 'https://xhd.foxypool.cf:8443',
+      url: 'https://xhd.foxypool.cf',
       color: '#333',
     },
   ];
