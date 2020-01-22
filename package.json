@@ -7,7 +7,7 @@
     "start-no-proxy": "ng serve --watch --disable-host-check",
     "build": "ng build --optimization=true --prod=true --sourceMap=false",
     "build-dev": "ng build",
-    "deploy": "ng run app:deploy --cname=foxypool.cf",
+    "deploy": "ng deploy --cname=foxypool.cf --no-silent",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
