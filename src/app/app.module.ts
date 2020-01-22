@@ -9,6 +9,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {FormsModule} from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     FontAwesomeModule,
     FormsModule,
     NgbModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' }),
   ],
   providers: [],
   bootstrap: [AppComponent]
