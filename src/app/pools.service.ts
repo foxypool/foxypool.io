@@ -12,11 +12,6 @@ export class PoolsService {
       url: 'https://bhd.foxypool.cf',
       color: '#05162f',
     },{
-      coin: 'BOOM',
-      name: 'Foxy-Pool BOOM',
-      url: 'https://boom.foxypool.cf',
-      color: '#4286f4',
-    },{
       coin: 'BTB',
       name: 'Foxy-Pool BTB',
       url: 'https://btb.foxypool.cf',
