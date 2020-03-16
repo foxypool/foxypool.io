@@ -104,6 +104,7 @@ export class DashboardComponent implements OnInit {
       case 'LHD':
       case 'HDD':
       case 'XHD':
+      case 'AETH':
         return 14660155037;
       default:
         return 18325193796;
