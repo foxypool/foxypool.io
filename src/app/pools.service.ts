@@ -37,11 +37,6 @@ export class PoolsService {
       url: 'https://hdd.foxypool.cf',
       color: '#ffffff',
     },{
-      coin: 'LAVA',
-      name: 'Foxy-Pool LAVA',
-      url: 'https://lava.foxypool.cf',
-      color: '#ffffff',
-    },{
       coin: 'LHD',
       name: 'Foxy-Pool LHD',
       url: 'https://lhd.foxypool.cf',
