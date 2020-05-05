@@ -16,9 +16,10 @@
   <tbody>
   <tr *ngFor="let pool of pools">
     <td style="width: 16em;">
-      <a href="{{pool.url}}" target="_blank">
+      <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
         <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
           <img src="assets/{{pool.coin.toLowerCase()}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
+          <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
         </div>
       </a>
     </td>
