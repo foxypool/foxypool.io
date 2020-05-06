@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PoolsService} from "../pools.service";
-import {StatsService} from "../stats.service";
 import * as Capacity from '../../shared/capacity.es5';
 import * as moment from "moment";
+import {ApiGatewayService} from "../api-gateway.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,10 +11,17 @@ import * as moment from "moment";
 })
 export class DashboardComponent implements OnInit {
 
+  private apiGatewayService = new ApiGatewayService();
+
   constructor(private poolsService: PoolsService) {}
 
   async ngOnInit() {
-    this.pools.forEach((pool:any) => pool.statsService = new StatsService(pool.url));
+    this.apiGatewayService.hostnames = this.pools.map((pool: any) => {
+      pool.hostname = pool.url.replace('https://', '');
+
+      return pool.hostname;
+    });
+    this.apiGatewayService.init();
   }
 
   get pools() {
@@ -22,19 +29,21 @@ export class DashboardComponent implements OnInit {
   }
 
   getMinersOfPool(pool) {
-    if (!pool.statsService) {
+    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    if (!poolStatsSubject) {
       return 0;
     }
 
-    return pool.statsService.poolStatsSubject.getValue().minerCount;
+    return poolStatsSubject.getValue().minerCount;
   }
 
   getMachinesOfPool(pool) {
-    if (!pool.statsService) {
+    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    if (!poolStatsSubject) {
       return 0;
     }
 
-    const miners = pool.statsService.poolStatsSubject.getValue().miners || [];
+    const miners = poolStatsSubject.getValue().miners || [];
 
     return miners.reduce((acc, miner) => {
       return acc + miner.machines.length;
@@ -42,53 +51,59 @@ export class DashboardComponent implements OnInit {
   }
 
   getCapacityOfPool(pool) {
-    if (!pool.statsService) {
+    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    if (!poolStatsSubject) {
       return 0;
     }
 
-    return this.getFormattedCapacityFromGiB(pool.statsService.poolStatsSubject.getValue().totalCapacity || 0);
+    return this.getFormattedCapacityFromGiB(poolStatsSubject.getValue().totalCapacity || 0);
   }
 
   getECOfPool(pool) {
-    if (!pool.statsService) {
+    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    if (!poolStatsSubject) {
       return 0;
     }
 
-    return this.getFormattedCapacityFromTiB(pool.statsService.poolStatsSubject.getValue().ec || 0);
+    return this.getFormattedCapacityFromTiB(poolStatsSubject.getValue().ec || 0);
   }
 
   getRateOfPool(pool) {
-    if (!pool.statsService) {
+    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    if (!poolStatsSubject) {
       return 0;
     }
 
-    return (pool.statsService.poolStatsSubject.getValue().rate || 0);
+    return (poolStatsSubject.getValue().rate || 0);
   }
 
   getDailyRewardOfPool(pool) {
-    if (!pool.statsService) {
+    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    if (!poolStatsSubject) {
       return 0;
     }
 
-    return (pool.statsService.poolStatsSubject.getValue().dailyRewardPerPiB || 0);
+    return (poolStatsSubject.getValue().dailyRewardPerPiB || 0);
   }
 
   getWonRoundsPerDayOfPool(pool) {
-    if (!pool.statsService) {
+    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    if (!poolStatsSubject) {
       return 0;
     }
 
-    const roundsWon = pool.statsService.poolStatsSubject.getValue().roundsWon || [];
+    const roundsWon = poolStatsSubject.getValue().roundsWon || [];
 
     return roundsWon.filter(round => moment(round.roundStart).isAfter(moment().subtract(1, 'day'))).length;
   }
 
   getNetDiffOfPool(pool) {
-    if (!pool.statsService) {
+    const roundStatsSubject = this.apiGatewayService.getRoundStatsSubject(pool.hostname);
+    if (!roundStatsSubject) {
       return 0;
     }
 
-    const round = pool.statsService.roundStatsSubject.getValue().round;
+    const round = roundStatsSubject.getValue().round;
     if (!round) {
       return 0;
     }
