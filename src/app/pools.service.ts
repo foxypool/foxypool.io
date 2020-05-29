@@ -16,13 +16,13 @@ export class PoolsService {
       name: 'Foxy-Pool BHD',
       url: 'https://bhd.foxypool.cf',
       color: '#05162f',
-    },{
-      coin: 'BHD',
-      name: 'Foxy-Pool BHD ECO',
-      url: 'https://bhd-eco.foxypool.cf',
-      color: '#05162f',
-      isEco: true,
-      ecoTextColor: '#f49d11',
+    // },{
+    //   coin: 'BHD',
+    //   name: 'Foxy-Pool BHD ECO',
+    //   url: 'https://bhd-eco.foxypool.cf',
+    //   color: '#05162f',
+    //   isEco: true,
+    //   ecoTextColor: '#f49d11',
     },{
       coin: 'BTB',
       name: 'Foxy-Pool BTB',
