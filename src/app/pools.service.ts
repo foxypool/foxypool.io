@@ -7,11 +7,6 @@ export class PoolsService {
 
   public readonly _pools = [
     {
-      coin: 'AETH',
-      name: 'Foxy-Pool AETH',
-      url: 'https://aeth.foxypool.cf',
-      color: '#ecf0f1',
-    },{
       coin: 'BHD',
       name: 'Foxy-Pool BHD',
       url: 'https://bhd.foxypool.cf',
@@ -23,11 +18,6 @@ export class PoolsService {
     //   color: '#05162f',
     //   isEco: true,
     //   ecoTextColor: '#f49d11',
-    },{
-      coin: 'BTB',
-      name: 'Foxy-Pool BTB',
-      url: 'https://btb.foxypool.cf',
-      color: '#ffffff',
     },{
       coin: 'BURST',
       name: 'Foxy-Pool BURST',
