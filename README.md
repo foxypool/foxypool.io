@@ -8,6 +8,7 @@ Foxy-Pool
 - Open https://foxypool.cf
 - Profit
 
+
 ## License
 
 GNU GPLv3 (see [LICENSE](https://github.com/felixbrucker/foxy-pool/blob/master/LICENSE))
