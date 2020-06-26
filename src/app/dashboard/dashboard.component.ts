@@ -3,6 +3,7 @@ import {PoolsService} from "../pools.service";
 import * as Capacity from '../../shared/capacity.es5';
 import * as moment from "moment";
 import {ApiGatewayService} from "../api-gateway.service";
+import * as coinUtil from '../../shared/coin-util.es5';
 
 @Component({
   selector: 'app-dashboard',
@@ -107,23 +108,10 @@ export class DashboardComponent implements OnInit {
     if (!round) {
       return 0;
     }
-    const netDiff = this.getBlockZeroBaseTarget(pool.coin) / round.baseTarget;
+    let netDiff = coinUtil.blockZeroBaseTarget(pool.coin) / round.baseTarget;
+    netDiff = coinUtil.modifyNetDiff(netDiff, pool.coin);
 
     return this.getFormattedCapacityFromTiB(netDiff);
-  }
-
-  getBlockZeroBaseTarget(coin) {
-    switch (coin) {
-      case 'BHD':
-        return 24433591728;
-      case 'LHD':
-      case 'HDD':
-      case 'XHD':
-      case 'AETH':
-        return 14660155037;
-      default:
-        return 18325193796;
-    }
   }
 
   getFormattedCapacityFromGiB(capacityInGiB) {
