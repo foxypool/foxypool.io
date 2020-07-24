@@ -31,7 +31,10 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "es5BrowserSupport": true
+            "allowedCommonJsDependencies": [
+              "socket.io-client",
+              "socket.io-parser"
+            ]
           },
           "configurations": {
             "production": {
@@ -55,7 +58,8 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
-                },                {
+                },
+                {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
