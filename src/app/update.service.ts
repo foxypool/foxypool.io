@@ -12,8 +12,10 @@ export class UpdateService {
   ) {
     swUpdate.available.subscribe(async () => {
       toastService.showInfoToast('Updating to the latest version ..', '', { timeOut: 2 * 1000 });
-      await swUpdate.activateUpdate();
-      await new Promise(resolve => setTimeout(resolve, 2 * 1000));
+      await Promise.all([
+        swUpdate.activateUpdate(),
+        new Promise(resolve => setTimeout(resolve, 2 * 1000)),
+      ]);
       document.location.reload();
     });
   }
