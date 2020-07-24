@@ -11,6 +11,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import {ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -25,6 +27,10 @@ import { environment } from '../environments/environment';
     FontAwesomeModule,
     FormsModule,
     NgbModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      newestOnTop: false,
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' }),
   ],
   providers: [],
