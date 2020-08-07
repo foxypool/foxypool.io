@@ -24,11 +24,6 @@ export class PoolsService {
       url:  'https://burst.foxypool.io',
       color: '#00579D',
     },{
-      coin: 'DISC',
-      name: 'Foxy-Pool DISC',
-      url: 'https://disc.foxypool.io',
-      color: '#209d3b',
-    },{
       coin: 'HDD',
       name: 'Foxy-Pool HDD',
       url: 'https://hdd.foxypool.io',
