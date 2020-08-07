@@ -9,39 +9,39 @@ export class PoolsService {
     {
       coin: 'BHD',
       name: 'Foxy-Pool BHD',
-      url: 'https://bhd.foxypool.cf',
+      url: 'https://bhd.foxypool.io',
       color: '#05162f',
     // },{
     //   coin: 'BHD',
     //   name: 'Foxy-Pool BHD ECO',
-    //   url: 'https://bhd-eco.foxypool.cf',
+    //   url: 'https://bhd-eco.foxypool.io',
     //   color: '#05162f',
     //   isEco: true,
     //   ecoTextColor: '#f49d11',
     },{
       coin: 'BURST',
       name: 'Foxy-Pool BURST',
-      url:  'https://burst.foxypool.cf',
+      url:  'https://burst.foxypool.io',
       color: '#00579D',
     },{
       coin: 'DISC',
       name: 'Foxy-Pool DISC',
-      url: 'https://disc.foxypool.cf',
+      url: 'https://disc.foxypool.io',
       color: '#209d3b',
     },{
       coin: 'HDD',
       name: 'Foxy-Pool HDD',
-      url: 'https://hdd.foxypool.cf',
+      url: 'https://hdd.foxypool.io',
       color: '#ffffff',
     },{
       coin: 'LHD',
       name: 'Foxy-Pool LHD',
-      url: 'https://lhd.foxypool.cf',
+      url: 'https://lhd.foxypool.io',
       color: '#06172f',
     },{
       coin: 'XHD',
       name: 'Foxy-Pool XHD',
-      url: 'https://xhd.foxypool.cf',
+      url: 'https://xhd.foxypool.io',
       color: '#333',
     },
   ];

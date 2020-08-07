@@ -5,7 +5,7 @@ Foxy-Pool
 
 ## How to use
 
-- Open https://foxypool.cf
+- Open https://foxypool.io
 - Profit
 
 
