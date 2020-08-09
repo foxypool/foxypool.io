@@ -4,6 +4,7 @@ import * as Capacity from '../../shared/capacity.es5';
 import * as moment from "moment";
 import {ApiGatewayService} from "../api-gateway.service";
 import * as coinUtil from '../../shared/coin-util.es5';
+import {ApiV2GatewayService} from "../api-v2-gateway.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -13,16 +14,23 @@ import * as coinUtil from '../../shared/coin-util.es5';
 export class DashboardComponent implements OnInit {
 
   private apiGatewayService = new ApiGatewayService();
+  private apiV2GatewayService = new ApiV2GatewayService();
 
   constructor(private poolsService: PoolsService) {}
 
   async ngOnInit() {
-    this.apiGatewayService.hostnames = this.pools.map((pool: any) => {
+    this.apiGatewayService.hostnames = this.pools.filter((pool: any) => !pool.poolIdentifier).map((pool: any) => {
       pool.hostname = pool.url.replace('https://', '');
 
       return pool.hostname;
     });
-    this.apiGatewayService.init();
+    this.apiV2GatewayService.poolIdentifier = this.pools.filter((pool: any) => pool.poolIdentifier).map((pool: any) => pool.poolIdentifier);
+    if (this.apiGatewayService.hostnames.length > 0) {
+      this.apiGatewayService.init();
+    }
+    if (this.apiV2GatewayService.poolIdentifier.length > 0) {
+      this.apiV2GatewayService.init();
+    }
   }
 
   get pools() {
@@ -30,29 +38,33 @@ export class DashboardComponent implements OnInit {
   }
 
   getMinersOfPool(pool) {
-    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
     if (!poolStatsSubject) {
       return 0;
     }
 
-    return poolStatsSubject.getValue().minerCount;
+    return poolStatsSubject.getValue().accountCount || poolStatsSubject.getValue().minerCount || 0;
   }
 
   getMachinesOfPool(pool) {
-    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
     if (!poolStatsSubject) {
       return 0;
     }
 
-    const miners = poolStatsSubject.getValue().miners || [];
+    const miners = poolStatsSubject.getValue().accounts || poolStatsSubject.getValue().miners || [];
 
     return miners.reduce((acc, miner) => {
-      return acc + miner.machines.length;
+      if (miner.machines) {
+        return acc + miner.machines.length;
+      }
+
+      return acc + miner.miner.length;
     }, 0);
   }
 
   getCapacityOfPool(pool) {
-    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -60,17 +72,8 @@ export class DashboardComponent implements OnInit {
     return this.getFormattedCapacityFromGiB(poolStatsSubject.getValue().totalCapacity || 0);
   }
 
-  getECOfPool(pool) {
-    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
-    if (!poolStatsSubject) {
-      return 0;
-    }
-
-    return this.getFormattedCapacityFromTiB(poolStatsSubject.getValue().ec || 0);
-  }
-
   getRateOfPool(pool) {
-    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -79,7 +82,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getDailyRewardOfPool(pool) {
-    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -88,18 +91,24 @@ export class DashboardComponent implements OnInit {
   }
 
   getWonRoundsPerDayOfPool(pool) {
-    const poolStatsSubject = this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
     if (!poolStatsSubject) {
       return 0;
     }
 
     const roundsWon = poolStatsSubject.getValue().roundsWon || [];
 
-    return roundsWon.filter(round => moment(round.roundStart).isAfter(moment().subtract(1, 'day'))).length;
+    return roundsWon.filter(round => {
+      if (round.roundStart) {
+        return moment(round.roundStart).isAfter(moment().subtract(1, 'day'));
+      }
+
+      return moment(round.createdAt).isAfter(moment().subtract(1, 'day'));
+    }).length;
   }
 
   getNetDiffOfPool(pool) {
-    const roundStatsSubject = this.apiGatewayService.getRoundStatsSubject(pool.hostname);
+    const roundStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getRoundStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getRoundStatsSubject(pool.hostname);
     if (!roundStatsSubject) {
       return 0;
     }
