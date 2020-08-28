@@ -11,6 +11,7 @@ export class PoolsService {
       name: 'Foxy-Pool BHD',
       url: 'https://bhd.foxypool.io',
       color: '#05162f',
+      poolIdentifier: 'bhd',
     // },{
     //   coin: 'BHD',
     //   name: 'Foxy-Pool BHD ECO',
@@ -18,6 +19,7 @@ export class PoolsService {
     //   color: '#05162f',
     //   isEco: true,
     //   ecoTextColor: '#f49d11',
+    //   poolIdentifier: 'bhd-eco',
     },{
       coin: 'BURST',
       name: 'Foxy-Pool BURST',
@@ -35,11 +37,13 @@ export class PoolsService {
       name: 'Foxy-Pool LHD',
       url: 'https://lhd.foxypool.io',
       color: '#06172f',
+      poolIdentifier: 'lhd',
     },{
       coin: 'XHD',
       name: 'Foxy-Pool XHD',
       url: 'https://xhd.foxypool.io',
       color: '#333',
+      poolIdentifier: 'xhd',
     },
   ];
 
