@@ -29,6 +29,7 @@ export class PoolsService {
       name: 'Foxy-Pool HDD',
       url: 'https://hdd.foxypool.io',
       color: '#ffffff',
+      poolIdentifier: 'hdd',
     },{
       coin: 'LHD',
       name: 'Foxy-Pool LHD',
