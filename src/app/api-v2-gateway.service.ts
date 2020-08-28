@@ -7,7 +7,7 @@ import {BehaviorSubject} from "rxjs";
 })
 export class ApiV2GatewayService {
 
-  private url = 'https://api-v2.foxypool.io:2096';
+  private url = 'https://api.foxypool.io';
   private websocketService: WebsocketService;
   private statsByPoolIdentifier = {};
 

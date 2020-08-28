@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {PoolsService} from "../pools.service";
 import * as Capacity from '../../shared/capacity.es5';
 import * as moment from "moment";
-import {ApiGatewayService} from "../api-gateway.service";
 import * as coinUtil from '../../shared/coin-util.es5';
 import {ApiV2GatewayService} from "../api-v2-gateway.service";
 
@@ -13,24 +12,13 @@ import {ApiV2GatewayService} from "../api-v2-gateway.service";
 })
 export class DashboardComponent implements OnInit {
 
-  private apiGatewayService = new ApiGatewayService();
   private apiV2GatewayService = new ApiV2GatewayService();
 
   constructor(private poolsService: PoolsService) {}
 
   async ngOnInit() {
-    this.apiGatewayService.hostnames = this.pools.filter((pool: any) => !pool.poolIdentifier).map((pool: any) => {
-      pool.hostname = pool.url.replace('https://', '');
-
-      return pool.hostname;
-    });
-    this.apiV2GatewayService.poolIdentifier = this.pools.filter((pool: any) => pool.poolIdentifier).map((pool: any) => pool.poolIdentifier);
-    if (this.apiGatewayService.hostnames.length > 0) {
-      this.apiGatewayService.init();
-    }
-    if (this.apiV2GatewayService.poolIdentifier.length > 0) {
-      this.apiV2GatewayService.init();
-    }
+    this.apiV2GatewayService.poolIdentifier = this.pools.map((pool: any) => pool.poolIdentifier);
+    this.apiV2GatewayService.init();
   }
 
   get pools() {
@@ -38,7 +26,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getMinersOfPool(pool) {
-    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -47,7 +35,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getMachinesOfPool(pool) {
-    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -64,7 +52,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getCapacityOfPool(pool) {
-    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -73,7 +61,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getRateOfPool(pool) {
-    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -82,7 +70,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getDailyRewardOfPool(pool) {
-    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -91,7 +79,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getWonRoundsPerDayOfPool(pool) {
-    const poolStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getPoolStatsSubject(pool.hostname);
+    const poolStatsSubject = this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier);
     if (!poolStatsSubject) {
       return 0;
     }
@@ -108,7 +96,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getNetDiffOfPool(pool) {
-    const roundStatsSubject = pool.poolIdentifier ? this.apiV2GatewayService.getRoundStatsSubject(pool.poolIdentifier) : this.apiGatewayService.getRoundStatsSubject(pool.hostname);
+    const roundStatsSubject = this.apiV2GatewayService.getRoundStatsSubject(pool.poolIdentifier);
     if (!roundStatsSubject) {
       return 0;
     }
