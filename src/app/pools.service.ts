@@ -20,6 +20,11 @@ export class PoolsService {
     //   isEco: true,
     //   ecoTextColor: '#f49d11',
     //   poolIdentifier: 'bhd-eco',
+    }, {
+      coin: 'CHIA',
+      name: 'Foxy-Pool CHIA',
+      url: 'https://chia.foxypool.io',
+      color: '#0D324D',
     },{
       coin: 'BURST',
       name: 'Foxy-Pool BURST',

@@ -17,7 +17,9 @@ export class DashboardComponent implements OnInit {
   constructor(private poolsService: PoolsService) {}
 
   async ngOnInit() {
-    this.apiV2GatewayService.poolIdentifier = this.pools.map((pool: any) => pool.poolIdentifier);
+    this.apiV2GatewayService.poolIdentifier = this.pools
+      .map((pool: any) => pool.poolIdentifier)
+      .filter(identifier => !!identifier);
     this.apiV2GatewayService.init();
   }
 

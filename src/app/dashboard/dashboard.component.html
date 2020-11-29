@@ -20,15 +20,21 @@
         </div>
       </a>
     </td>
-    <td>
+    <td *ngIf="pool.poolIdentifier">
       {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.coin}} / PiB<br>
       {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
     </td>
-    <td>{{getWonRoundsPerDayOfPool(pool)}}</td>
-    <td>{{getCapacityOfPool(pool)}}</td>
-    <td>{{getMinersOfPool(pool)}}</td>
-    <td>{{getMachinesOfPool(pool)}}</td>
-    <td>{{getNetDiffOfPool(pool)}}</td>
+    <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
+    <td *ngIf="pool.poolIdentifier">{{getCapacityOfPool(pool)}}</td>
+    <td *ngIf="pool.poolIdentifier">{{getMinersOfPool(pool)}}</td>
+    <td *ngIf="pool.poolIdentifier">{{getMachinesOfPool(pool)}}</td>
+    <td *ngIf="pool.poolIdentifier">{{getNetDiffOfPool(pool)}}</td>
+    <td *ngIf="!pool.poolIdentifier">N/A</td>
+    <td *ngIf="!pool.poolIdentifier">N/A</td>
+    <td *ngIf="!pool.poolIdentifier">N/A</td>
+    <td *ngIf="!pool.poolIdentifier">N/A</td>
+    <td *ngIf="!pool.poolIdentifier">N/A</td>
+    <td *ngIf="!pool.poolIdentifier">N/A</td>
   </tr>
   </tbody>
 </table>
