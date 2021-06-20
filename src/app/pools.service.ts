@@ -25,6 +25,16 @@ export class PoolsService {
       name: 'Foxy-Pool CHIA',
       url: 'https://chia.foxypool.io',
       color: '#0D324D',
+      isChiaPool: true,
+    }, {
+      coin: 'CHIA',
+      name: 'Foxy-Pool CHIA (OG)',
+      url: 'https://chia-og.foxypool.io',
+      color: '#0D324D',
+      poolIdentifier: 'chia-og',
+      apiUrl: 'https://api.chia-og.foxypool.io',
+      isChiaPool: true,
+      imageName: 'chia-og',
     },{
       coin: 'BURST',
       name: 'Foxy-Pool BURST',
@@ -56,5 +66,13 @@ export class PoolsService {
 
   get pools() {
     return this._pools;
+  }
+
+  get pocPools() {
+    return this._pools.filter(pool => !pool.isChiaPool);
+  }
+
+  get chiaPools() {
+    return this._pools.filter(pool => pool.isChiaPool);
   }
 }
