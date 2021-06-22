@@ -137,15 +137,7 @@ export class DashboardComponent implements OnInit {
       return 0;
     }
 
-    const miners = poolStatsSubject.getValue().accounts || poolStatsSubject.getValue().miners || [];
-
-    return miners.reduce((acc, miner) => {
-      if (miner.machines) {
-        return acc + miner.machines.length;
-      }
-
-      return acc + miner.miner.length;
-    }, 0);
+    return poolStatsSubject.getValue().minerCount || 0;
   }
 
   getCapacityOfPool(pool) {
@@ -191,15 +183,7 @@ export class DashboardComponent implements OnInit {
       return (stats.blocksWonLastDay || []).length;
     }
 
-    const roundsWon = stats.roundsWon || [];
-
-    return roundsWon.filter(round => {
-      if (round.roundStart) {
-        return moment(round.roundStart).isAfter(moment().subtract(1, 'day'));
-      }
-
-      return moment(round.createdAt).isAfter(moment().subtract(1, 'day'));
-    }).length;
+    return stats.roundsWonPerDay || 0;
   }
 
   getNetDiffOfPool(pool) {

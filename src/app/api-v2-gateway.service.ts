@@ -26,23 +26,23 @@ export class ApiV2GatewayService {
 
     this.websocketService = new WebsocketService(`${this.url}/web-ui`);
     this.websocketService.subscribe('connect', this.onConnected.bind(this));
-    this.websocketService.subscribe('stats/pool', this.onNewPoolStats.bind(this));
-    this.websocketService.subscribe('stats/round', this.onNewRoundStats.bind(this));
+    this.websocketService.subscribe('stats:overview:pool', this.onNewPoolStats.bind(this));
+    this.websocketService.subscribe('stats:overview:round', this.onNewRoundStats.bind(this));
   }
 
   async onConnected() {
     await this.subscribeToPools();
     this.poolIdentifier.forEach(poolIdentifier => {
-      this.websocketService.publish('stats/init', poolIdentifier, ([poolConfig, poolStats, roundStats]) => {
+      this.websocketService.publish('stats:overview:init', poolIdentifier, ({poolConfig, poolOverviewStats, roundOverviewStats}) => {
         this.onNewPoolConfig(poolIdentifier, poolConfig);
-        this.onNewPoolStats(poolIdentifier, poolStats);
-        this.onNewRoundStats(poolIdentifier, roundStats);
+        this.onNewPoolStats(poolIdentifier, poolOverviewStats);
+        this.onNewRoundStats(poolIdentifier, roundOverviewStats);
       });
     });
   }
 
   subscribeToPools() {
-    return new Promise(resolve => this.websocketService.publish('subscribe', this.poolIdentifier, resolve));
+    return new Promise(resolve => this.websocketService.publish('subscribe:overview', this.poolIdentifier, resolve));
   }
 
   getPoolStatsSubject(poolIdentifier) {
