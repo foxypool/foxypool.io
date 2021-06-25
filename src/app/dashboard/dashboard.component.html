@@ -21,7 +21,7 @@
       </a>
     </td>
     <td *ngIf="pool.poolIdentifier">
-      {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.coin}} / PiB<br>
+      {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
       {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
     </td>
     <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
