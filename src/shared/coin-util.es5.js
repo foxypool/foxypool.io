@@ -32,7 +32,7 @@ const coinUtil = {
   },
 
   modifyDeadline(deadline, coin) {
-    if (deadline === null || coin !== 'BURST') {
+    if (deadline === null || coin !== 'SIGNA') {
       return deadline;
     }
 
@@ -40,7 +40,7 @@ const coinUtil = {
   },
 
   modifyNetDiff(netDiff, coin) {
-    if (!netDiff || coin !== 'BURST') {
+    if (!netDiff || coin !== 'SIGNA') {
       return netDiff;
     }
 

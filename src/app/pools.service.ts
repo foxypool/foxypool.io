@@ -49,12 +49,12 @@ export class PoolsService {
       imageName: 'flax-og',
       ticker: 'XFX',
     },{
-      coin: 'BURST',
-      name: 'Foxy-Pool BURST',
-      url:  'https://burst.foxypool.io',
-      color: '#00579D',
-      poolIdentifier: 'burst',
-      ticker: 'BURST',
+      coin: 'SIGNA',
+      name: 'Foxy-Pool SIGNA',
+      url:  'https://signa.foxypool.io',
+      color: '#ffffff',
+      poolIdentifier: 'signa',
+      ticker: 'SIGNA',
     },{
       coin: 'HDD',
       name: 'Foxy-Pool HDD',

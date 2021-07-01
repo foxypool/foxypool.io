@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PoolsService} from "../pools.service";
 import * as Capacity from '../../shared/capacity.es5';
-import * as moment from "moment";
 import * as coinUtil from '../../shared/coin-util.es5';
 import {ApiV2GatewayService} from "../api-v2-gateway.service";
 import {ChiaGateway} from '../chia-gateway';
