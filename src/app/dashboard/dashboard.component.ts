@@ -33,6 +33,14 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  get showTable() {
+    return window.innerWidth >= 945;
+  }
+
+  get showFullTable() {
+    return window.innerWidth >= 1050;
+  }
+
   get pocPools() {
     return this.poolsService.pocPools;
   }

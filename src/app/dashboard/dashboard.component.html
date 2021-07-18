@@ -1,4 +1,4 @@
-<table class="table table-dark dark-theme">
+<table *ngIf="showTable" class="table table-dark dark-theme">
   <thead>
     <tr>
       <th scope="col">Pool</th>
@@ -7,7 +7,7 @@
       <th scope="col">Won (24h)</th>
       <th scope="col">Capacity</th>
       <th scope="col">Miner</th>
-      <th scope="col">Machines</th>
+      <th scope="col" *ngIf="showFullTable">Machines</th>
       <th scope="col">NetDiff</th>
     </tr>
   </thead>
@@ -29,13 +29,13 @@
       <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
       <td *ngIf="pool.poolIdentifier">{{getCapacityOfPool(pool)}}</td>
       <td *ngIf="pool.poolIdentifier">{{getMinersOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier">{{getMachinesOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier && showFullTable">{{getMachinesOfPool(pool)}}</td>
       <td *ngIf="pool.poolIdentifier">{{getNetDiffOfPool(pool)}}</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier && showFullTable">N/A</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
     </tr>
     <tr *ngFor="let pool of pocPools">
@@ -55,14 +55,216 @@
       <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
       <td *ngIf="pool.poolIdentifier">{{getCapacityOfPool(pool)}}</td>
       <td *ngIf="pool.poolIdentifier">{{getMinersOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier">{{getMachinesOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier && showFullTable">{{getMachinesOfPool(pool)}}</td>
       <td *ngIf="pool.poolIdentifier">{{getNetDiffOfPool(pool)}}</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier && showFullTable">N/A</td>
       <td *ngIf="!pool.poolIdentifier">N/A</td>
     </tr>
   </tbody>
 </table>
+<div *ngIf="!showTable">
+  <div class="card-group">
+    <div class="card" style="min-width: 300px; margin: 4px" *ngFor="let pool of postPools">
+      <div class="card-header">
+        <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
+          <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
+            <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
+            <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
+          </div>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">Algorithm</span>
+          </div>
+          <div class="col-6 text-center">
+            <span class="badge badge-post" ngbTooltip="Proof of Spacetime" placement="right">PoSt</span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1 align-items-center">
+          <div class="col-6">
+            <span class="card-font-size">Daily Reward</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier" class="font-weight-bold">
+            {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
+            {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">Won (24h)</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+            {{getWonRoundsPerDayOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">Capacity</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+            {{getCapacityOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+            {{getMinersOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1" *ngIf="!pool.isPoStPool">
+          <div class="col-6">
+            <span class="card-font-size">Machines</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+           {{getMachinesOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">NetDiff</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+            {{getNetDiffOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="min-width: 300px; margin: 4px" *ngFor="let pool of pocPools">
+      <div class="card-header">
+        <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
+          <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
+            <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
+            <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
+          </div>
+        </a>
+      </div>
+      <div class="card-body">
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">Algorithm</span>
+          </div>
+          <div class="col-6 text-center">
+            <span class="badge badge-poc" ngbTooltip="Proof of Capacity" placement="right">PoC</span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1 align-items-center">
+          <div class="col-6">
+            <span class="card-font-size">Daily Reward</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier" class="font-weight-bold">
+            {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
+            {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">Won (24h)</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+            {{getWonRoundsPerDayOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">Capacity</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+            {{getCapacityOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+            {{getMinersOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1" *ngIf="!pool.isPoStPool">
+          <div class="col-6">
+            <span class="card-font-size">Machines</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+           {{getMachinesOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+        <div class="row justify-content-around p-1">
+          <div class="col-6">
+            <span class="card-font-size">NetDiff</span>
+          </div>
+          <div class="col-6 text-center">
+          <span *ngIf="pool.poolIdentifier">
+            {{getNetDiffOfPool(pool)}}
+          </span>
+            <span *ngIf="!pool.poolIdentifier">
+            N/A
+          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
