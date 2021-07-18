@@ -13,20 +13,12 @@ export class PoolsService {
       color: '#05162f',
       poolIdentifier: 'bhd',
       ticker: 'BHD',
-    // },{
-    //   coin: 'BHD',
-    //   name: 'Foxy-Pool BHD ECO',
-    //   url: 'https://bhd-eco.foxypool.io',
-    //   color: '#05162f',
-    //   isEco: true,
-    //   ecoTextColor: '#f49d11',
-    //   poolIdentifier: 'bhd-eco',
     },{
       coin: 'CHIA',
       name: 'Foxy-Pool CHIA',
       url: 'https://chia.foxypool.io',
       color: '#0D324D',
-      isChiaPool: true,
+      isPoStPool: true,
       ticker: 'XCH',
     },{
       coin: 'CHIA',
@@ -35,17 +27,17 @@ export class PoolsService {
       color: '#0D324D',
       poolIdentifier: 'chia-og',
       apiUrl: 'https://api.chia-og.foxypool.io',
-      isChiaPool: true,
+      isPoStPool: true,
       imageName: 'chia-og',
       ticker: 'XCH',
     },{
       coin: 'FLAX',
       name: 'Foxy-Pool FLAX (OG)',
       url: 'https://flax-og.foxypool.io',
-      color: '#FFFFFF',
+      color: '#e6ffe6',
       poolIdentifier: 'flax-og',
       apiUrl: 'https://api.flax-og.foxypool.io',
-      isChiaPool: true,
+      isPoStPool: true,
       imageName: 'flax-og',
       ticker: 'XFX',
     },{
@@ -55,27 +47,6 @@ export class PoolsService {
       color: '#ffffff',
       poolIdentifier: 'signa',
       ticker: 'SIGNA',
-    },{
-      coin: 'HDD',
-      name: 'Foxy-Pool HDD',
-      url: 'https://hdd.foxypool.io',
-      color: '#ffffff',
-      poolIdentifier: 'hdd',
-      ticker: 'HDD',
-    },{
-      coin: 'LHD',
-      name: 'Foxy-Pool LHD',
-      url: 'https://lhd.foxypool.io',
-      color: '#06172f',
-      poolIdentifier: 'lhd',
-      ticker: 'LHD',
-    },{
-      coin: 'XHD',
-      name: 'Foxy-Pool XHD',
-      url: 'https://xhd.foxypool.io',
-      color: '#333',
-      poolIdentifier: 'xhd',
-      ticker: 'XHD',
     },
   ];
 
@@ -86,10 +57,10 @@ export class PoolsService {
   }
 
   get pocPools() {
-    return this._pools.filter(pool => !pool.isChiaPool);
+    return this._pools.filter(pool => !pool.isPoStPool);
   }
 
-  get chiaPools() {
-    return this._pools.filter(pool => pool.isChiaPool);
+  get postPools() {
+    return this._pools.filter(pool => pool.isPoStPool);
   }
 }

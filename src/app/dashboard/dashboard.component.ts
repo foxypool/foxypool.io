@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
       .filter(identifier => !!identifier);
     this.apiV2GatewayService.init();
     await Promise.all(
-      this.poolsService.chiaPools
+      this.poolsService.postPools
         .filter(pool => pool.apiUrl && pool.poolIdentifier)
         .map(async pool => {
           this.chiaGatewaysByPoolIdentifier[pool.poolIdentifier] = new ChiaGateway(pool.apiUrl, [pool.poolIdentifier]);
@@ -33,12 +33,16 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  get pools() {
-    return this.poolsService.pools;
+  get pocPools() {
+    return this.poolsService.pocPools;
+  }
+
+  get postPools() {
+    return this.poolsService.postPools;
   }
 
   getPoolStats(pool: any) {
-    const gateway = pool.isChiaPool ? this.getChiaGateway(pool) : this.apiV2GatewayService;
+    const gateway = pool.isPoStPool ? this.getChiaGateway(pool) : this.apiV2GatewayService;
     if (!gateway) {
       return null;
     }
@@ -51,7 +55,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getRoundStats(pool: any) {
-    if (pool.isChiaPool) {
+    if (pool.isPoStPool) {
       return null;
     }
     const statsSubject = this.apiV2GatewayService.getRoundStatsSubject(pool.poolIdentifier);
@@ -63,7 +67,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getAccountStats(pool: any) {
-    if (!pool.isChiaPool) {
+    if (!pool.isPoStPool) {
       return null;
     }
     const gateway = this.getChiaGateway(pool);
@@ -79,7 +83,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getExchangeStats(pool: any) {
-    if (!pool.isChiaPool) {
+    if (!pool.isPoStPool) {
       return null;
     }
     const gateway = this.getChiaGateway(pool);
@@ -95,7 +99,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getRewardStats(pool: any) {
-    if (!pool.isChiaPool) {
+    if (!pool.isPoStPool) {
       return null;
     }
     const gateway = this.getChiaGateway(pool);
@@ -115,12 +119,12 @@ export class DashboardComponent implements OnInit {
   }
 
   getMinersOfPool(pool) {
-    const stats = pool.isChiaPool ? this.getAccountStats(pool) : this.getPoolStats(pool);
+    const stats = pool.isPoStPool ? this.getAccountStats(pool) : this.getPoolStats(pool);
     if (!stats) {
       return 0;
     }
 
-    if (pool.isChiaPool) {
+    if (pool.isPoStPool) {
       return stats.accountsWithShares || 0;
     }
 
@@ -128,7 +132,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getMachinesOfPool(pool) {
-    if (pool.isChiaPool) {
+    if (pool.isPoStPool) {
       return 'N/A';
     }
     const poolStatsSubject = this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier);
@@ -140,11 +144,11 @@ export class DashboardComponent implements OnInit {
   }
 
   getCapacityOfPool(pool) {
-    const stats = pool.isChiaPool ? this.getAccountStats(pool) : this.getPoolStats(pool);
+    const stats = pool.isPoStPool ? this.getAccountStats(pool) : this.getPoolStats(pool);
     if (!stats) {
       return 0;
     }
-    if (pool.isChiaPool) {
+    if (pool.isPoStPool) {
       return this.getFormattedCapacityFromGiB(stats.ecSum || 0);
     }
 
@@ -152,11 +156,11 @@ export class DashboardComponent implements OnInit {
   }
 
   getRateOfPool(pool) {
-    const stats = pool.isChiaPool ? this.getExchangeStats(pool) : this.getPoolStats(pool);
+    const stats = pool.isPoStPool ? this.getExchangeStats(pool) : this.getPoolStats(pool);
     if (!stats) {
       return 0;
     }
-    if (pool.isChiaPool) {
+    if (pool.isPoStPool) {
       return (stats.rates && stats.rates.usd) || 0;
     }
 
@@ -164,7 +168,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getDailyRewardOfPool(pool) {
-    const stats = pool.isChiaPool ? this.getRewardStats(pool) : this.getPoolStats(pool);
+    const stats = pool.isPoStPool ? this.getRewardStats(pool) : this.getPoolStats(pool);
     if (!stats) {
       return 0;
     }
@@ -173,12 +177,12 @@ export class DashboardComponent implements OnInit {
   }
 
   getWonRoundsPerDayOfPool(pool) {
-    const stats = pool.isChiaPool ? this.getRewardStats(pool) : this.getPoolStats(pool);
+    const stats = pool.isPoStPool ? this.getRewardStats(pool) : this.getPoolStats(pool);
     if (!stats) {
       return 0;
     }
 
-    if (pool.isChiaPool) {
+    if (pool.isPoStPool) {
       return (stats.blocksWonLastDay || []).length;
     }
 
@@ -186,12 +190,12 @@ export class DashboardComponent implements OnInit {
   }
 
   getNetDiffOfPool(pool) {
-    const stats = pool.isChiaPool ? this.getPoolStats(pool) : this.getRoundStats(pool);
+    const stats = pool.isPoStPool ? this.getPoolStats(pool) : this.getRoundStats(pool);
     if (!stats) {
       return 0;
     }
 
-    if (pool.isChiaPool) {
+    if (pool.isPoStPool) {
       return this.getFormattedCapacityFromTiB(stats.networkSpaceInTiB);
     }
 

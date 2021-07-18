@@ -1,40 +1,68 @@
 <table class="table table-dark dark-theme">
   <thead>
-  <tr>
-    <th scope="col">Pool</th>
-    <th scope="col">Daily Reward</th>
-    <th scope="col">Won (24h)</th>
-    <th scope="col">Capacity</th>
-    <th scope="col">Miner</th>
-    <th scope="col">Machines</th>
-    <th scope="col">NetDiff</th>
-  </tr>
+    <tr>
+      <th scope="col">Pool</th>
+      <th scope="col">Algorithm</th>
+      <th scope="col">Daily Reward</th>
+      <th scope="col">Won (24h)</th>
+      <th scope="col">Capacity</th>
+      <th scope="col">Miner</th>
+      <th scope="col">Machines</th>
+      <th scope="col">NetDiff</th>
+    </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let pool of pools">
-    <td style="width: 16em;">
-      <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
-        <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
-          <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
-          <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
-        </div>
-      </a>
-    </td>
-    <td *ngIf="pool.poolIdentifier">
-      {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
-      {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
-    </td>
-    <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
-    <td *ngIf="pool.poolIdentifier">{{getCapacityOfPool(pool)}}</td>
-    <td *ngIf="pool.poolIdentifier">{{getMinersOfPool(pool)}}</td>
-    <td *ngIf="pool.poolIdentifier">{{getMachinesOfPool(pool)}}</td>
-    <td *ngIf="pool.poolIdentifier">{{getNetDiffOfPool(pool)}}</td>
-    <td *ngIf="!pool.poolIdentifier">N/A</td>
-    <td *ngIf="!pool.poolIdentifier">N/A</td>
-    <td *ngIf="!pool.poolIdentifier">N/A</td>
-    <td *ngIf="!pool.poolIdentifier">N/A</td>
-    <td *ngIf="!pool.poolIdentifier">N/A</td>
-    <td *ngIf="!pool.poolIdentifier">N/A</td>
-  </tr>
+    <tr *ngFor="let pool of postPools">
+      <td style="width: 16em;">
+        <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
+          <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
+            <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
+            <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
+          </div>
+        </a>
+      </td>
+      <td><span class="badge badge-post">PoSt</span></td>
+      <td *ngIf="pool.poolIdentifier">
+        {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
+        {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
+      </td>
+      <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier">{{getCapacityOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier">{{getMinersOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier">{{getMachinesOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier">{{getNetDiffOfPool(pool)}}</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+    </tr>
+    <tr *ngFor="let pool of pocPools">
+      <td style="width: 16em;">
+        <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
+          <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
+            <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
+            <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
+          </div>
+        </a>
+      </td>
+      <td><span class="badge badge-poc">PoC</span></td>
+      <td *ngIf="pool.poolIdentifier">
+        {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
+        {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
+      </td>
+      <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier">{{getCapacityOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier">{{getMinersOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier">{{getMachinesOfPool(pool)}}</td>
+      <td *ngIf="pool.poolIdentifier">{{getNetDiffOfPool(pool)}}</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td *ngIf="!pool.poolIdentifier">N/A</td>
+    </tr>
   </tbody>
 </table>
