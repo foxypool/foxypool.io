@@ -21,7 +21,7 @@
           </div>
         </a>
       </td>
-      <td><span class="badge badge-post">PoSt</span></td>
+      <td><span class="badge badge-post" ngbTooltip="Proof of Spacetime" placement="right">PoSt</span></td>
       <td *ngIf="pool.poolIdentifier">
         {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
         {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
@@ -47,7 +47,7 @@
           </div>
         </a>
       </td>
-      <td><span class="badge badge-poc">PoC</span></td>
+      <td><span class="badge badge-poc" ngbTooltip="Proof of Capacity" placement="right">PoC</span></td>
       <td *ngIf="pool.poolIdentifier">
         {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
         {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
