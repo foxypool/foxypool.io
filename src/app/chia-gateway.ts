@@ -1,11 +1,15 @@
-import {WebsocketService} from "./websocket.service";
+import axios, {AxiosInstance} from 'axios';
 import {BehaviorSubject} from "rxjs";
 
 export class ChiaGateway {
-  private websocketService: WebsocketService;
+  private client: AxiosInstance;
   private statsByPoolIdentifier = {};
 
-  constructor(private url: string, private poolIdentifier: string[]) {}
+  constructor(private url: string, private poolIdentifier: string[]) {
+    this.client = axios.create({
+      baseURL: `${url}/api/v1`,
+    });
+  }
 
   init() {
     this.poolIdentifier.forEach(poolIdentifier => {
@@ -17,37 +21,52 @@ export class ChiaGateway {
         exchangeStats: new BehaviorSubject<any>({}),
       };
     });
-
-    this.websocketService = new WebsocketService(`${this.url}/stats`);
-    this.websocketService.subscribe('connect', this.onConnected.bind(this));
-    this.websocketService.subscribe('pool-stats-updated', this.onNewPoolStats.bind(this));
-    this.websocketService.subscribe('account-stats-updated', this.onNewAccountStats.bind(this));
-    this.websocketService.subscribe('exchange-stats-updated', this.onNewExchangeStats.bind(this));
-    this.websocketService.subscribe('reward-stats-updated', this.onNewRewardStats.bind(this));
-
+    this.initStats();
+    setInterval(this.updatePoolConfig.bind(this), 60 * 60 * 1000);
+    setInterval(this.updatePoolStats.bind(this), 31 * 1000);
+    setInterval(this.updateAccountsStats.bind(this), 61 * 1000);
+    setInterval(this.updateRewardStats.bind(this), 61 * 1000);
+    setInterval(this.updateExchangeStats.bind(this), 5 * 61 * 1000);
   }
 
-  async onConnected() {
-    await this.subscribeToPools();
-    this.poolIdentifier.forEach(poolIdentifier => {
-      this.websocketService.publish('init', poolIdentifier, ({
-        poolConfig,
-        poolStats,
-        exchangeStats,
-        accountStats,
-        rewardStats,
-      }) => {
-        this.onNewPoolConfig(poolIdentifier, poolConfig);
-        this.onNewPoolStats(poolIdentifier, poolStats);
-        this.onNewAccountStats(poolIdentifier, accountStats);
-        this.onNewRewardStats(poolIdentifier, rewardStats);
-        this.onNewExchangeStats(poolIdentifier, exchangeStats);
-      });
-    });
+  async initStats() {
+    await Promise.all([
+      this.updatePoolConfig(),
+      this.updatePoolStats(),
+      this.updateAccountsStats(),
+      this.updateRewardStats(),
+      this.updateExchangeStats(),
+    ]);
   }
 
-  subscribeToPools() {
-    return new Promise(resolve => this.websocketService.publish('subscribe', this.poolIdentifier, resolve));
+  async updatePoolConfig() {
+    await Promise.all(this.poolIdentifier.map(async (poolIdentifier) => {
+      this.onNewPoolConfig(poolIdentifier, await this.getPoolConfig({ poolIdentifier }));
+    }));
+  }
+
+  async updatePoolStats() {
+    await Promise.all(this.poolIdentifier.map(async (poolIdentifier) => {
+      this.onNewPoolStats(poolIdentifier, await this.getPoolStats({ poolIdentifier }));
+    }));
+  }
+
+  async updateAccountsStats() {
+    await Promise.all(this.poolIdentifier.map(async (poolIdentifier) => {
+      this.onNewAccountStats(poolIdentifier, await this.getAccountsStats({ poolIdentifier }));
+    }));
+  }
+
+  async updateRewardStats() {
+    await Promise.all(this.poolIdentifier.map(async (poolIdentifier) => {
+      this.onNewRewardStats(poolIdentifier, await this.getRewardStats({ poolIdentifier }));
+    }));
+  }
+
+  async updateExchangeStats() {
+    await Promise.all(this.poolIdentifier.map(async (poolIdentifier) => {
+      this.onNewExchangeStats(poolIdentifier, await this.getExchangeStats({ poolIdentifier }));
+    }));
   }
 
   getPoolStatsSubject(poolIdentifier) {
@@ -84,5 +103,35 @@ export class ChiaGateway {
 
   onNewRewardStats(poolIdentifier, rewardStats) {
     this.statsByPoolIdentifier[poolIdentifier].rewardStats.next(rewardStats);
+  }
+
+  async getPoolConfig({ poolIdentifier }) {
+    const { data } = await this.client.get(`${poolIdentifier}/config`);
+
+    return data;
+  }
+
+  async getPoolStats({ poolIdentifier }) {
+    const { data } = await this.client.get(`${poolIdentifier}/pool`);
+
+    return data;
+  }
+
+  async getAccountsStats({ poolIdentifier }) {
+    const { data } = await this.client.get(`${poolIdentifier}/accounts`);
+
+    return data;
+  }
+
+  async getRewardStats({ poolIdentifier }) {
+    const { data } = await this.client.get(`${poolIdentifier}/rewards`);
+
+    return data;
+  }
+
+  async getExchangeStats({ poolIdentifier }) {
+    const { data } = await this.client.get(`${poolIdentifier}/rates`);
+
+    return data;
   }
 }
