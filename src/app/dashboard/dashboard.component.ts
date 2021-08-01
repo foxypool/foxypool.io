@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import * as moment from 'moment';
 import {PoolsService} from "../pools.service";
 import * as Capacity from '../../shared/capacity.es5';
 import * as coinUtil from '../../shared/coin-util.es5';
@@ -191,7 +192,9 @@ export class DashboardComponent implements OnInit {
     }
 
     if (pool.isPoStPool) {
-      return (stats.blocksWonLastDay || []).length;
+      return (stats.recentlyWonBlocks || [])
+        .filter(wonBlock => moment(wonBlock.createdAt).isAfter(moment().subtract(1, 'day')))
+        .length;
     }
 
     return stats.roundsWonPerDay || 0;

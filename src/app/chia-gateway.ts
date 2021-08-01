@@ -7,7 +7,7 @@ export class ChiaGateway {
 
   constructor(private url: string, private poolIdentifier: string[]) {
     this.client = axios.create({
-      baseURL: `${url}/api/v1`,
+      baseURL: `${url}/api/v2`,
     });
   }
 
