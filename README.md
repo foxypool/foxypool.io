@@ -12,4 +12,4 @@ Foxy-Pool
 
 ## License
 
-GNU GPLv3 (see [LICENSE](https://github.com/felixbrucker/foxy-pool/blob/master/LICENSE))
+GNU GPLv3 (see [LICENSE](https://github.com/foxypool/foxypool.io/blob/master/LICENSE))
