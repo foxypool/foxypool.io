@@ -47,7 +47,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -63,7 +62,6 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
-
               ],
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
