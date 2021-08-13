@@ -31,7 +31,6 @@
     "@ng-bootstrap/ng-bootstrap": "^8.0.4",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
-    "core-js": "^3.6.5",
     "moment": "^2.29.1",
     "ngx-toastr": "^13.2.1",
     "rxjs": "^6.6.0",
