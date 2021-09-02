@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import {WebsocketService} from "./websocket.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from 'rxjs';
+import {ApiService} from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiV2GatewayService {
-
-  private url = 'https://api.foxypool.io';
-  private websocketService: WebsocketService;
+  private apiService: ApiService = new ApiService();
   private statsByPoolIdentifier = {};
 
   public poolIdentifier = [];
@@ -24,25 +22,32 @@ export class ApiV2GatewayService {
       };
     });
 
-    this.websocketService = new WebsocketService(`${this.url}/web-ui`);
-    this.websocketService.subscribe('connect', this.onConnected.bind(this));
-    this.websocketService.subscribe('stats:overview:pool', this.onNewPoolStats.bind(this));
-    this.websocketService.subscribe('stats:overview:round', this.onNewRoundStats.bind(this));
-  }
-
-  async onConnected() {
-    await this.subscribeToPools();
     this.poolIdentifier.forEach(poolIdentifier => {
-      this.websocketService.publish('stats:overview:init', poolIdentifier, ({poolConfig, poolOverviewStats, roundOverviewStats}) => {
-        this.onNewPoolConfig(poolIdentifier, poolConfig);
-        this.onNewPoolStats(poolIdentifier, poolOverviewStats);
-        this.onNewRoundStats(poolIdentifier, roundOverviewStats);
-      });
+      this.initForPoolIdentifier(poolIdentifier);
+      setInterval(this.updatePoolConfig.bind(this, poolIdentifier), 60 * 60 * 1000);
+      setInterval(this.updatePoolStats.bind(this, poolIdentifier), 31 * 1000);
+      setInterval(this.updateRoundStats.bind(this, poolIdentifier), 31 * 1000);
     });
   }
 
-  subscribeToPools() {
-    return new Promise(resolve => this.websocketService.publish('subscribe:overview', this.poolIdentifier, resolve));
+  async initForPoolIdentifier(poolIdentifier) {
+    await Promise.all([
+      this.updatePoolConfig(poolIdentifier),
+      this.updatePoolStats(poolIdentifier),
+      this.updateRoundStats(poolIdentifier),
+    ]);
+  }
+
+  async updatePoolConfig(poolIdentifier) {
+    this.onNewPoolConfig(poolIdentifier, await this.apiService.getPoolConfig({ poolIdentifier }));
+  }
+
+  async updatePoolStats(poolIdentifier) {
+    this.onNewPoolStats(poolIdentifier, await this.apiService.getOverviewPoolStats({ poolIdentifier }));
+  }
+
+  async updateRoundStats(poolIdentifier) {
+    this.onNewRoundStats(poolIdentifier, await this.apiService.getOverviewRoundStats({ poolIdentifier }));
   }
 
   getPoolStatsSubject(poolIdentifier) {
