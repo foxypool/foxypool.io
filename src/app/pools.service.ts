@@ -7,13 +7,6 @@ export class PoolsService {
 
   public readonly _pools = [
     {
-      coin: 'BHD',
-      name: 'Foxy-Pool BHD',
-      url: 'https://bhd.foxypool.io',
-      color: '#05162f',
-      poolIdentifier: 'bhd',
-      ticker: 'BHD',
-    },{
       coin: 'CHIA',
       name: 'Foxy-Pool CHIA',
       url: 'https://chia.foxypool.io',
@@ -43,6 +36,23 @@ export class PoolsService {
       imageName: 'flax-og',
       ticker: 'XFX',
     },{
+      coin: 'CHIVES',
+      name: 'Foxy-Pool CHIVES (OG)',
+      url: 'https://chives-og.foxypool.io',
+      color: '#ffffff',
+      poolIdentifier: 'chives-og',
+      apiUrl: 'https://api2.foxypool.io',
+      isPoStPool: true,
+      imageName: 'chives-og',
+      ticker: 'XCC',
+    },{
+      coin: 'BHD',
+      name: 'Foxy-Pool BHD',
+      url: 'https://bhd.foxypool.io',
+      color: '#05162f',
+      poolIdentifier: 'bhd',
+      ticker: 'BHD',
+    }, {
       coin: 'SIGNA',
       name: 'Foxy-Pool SIGNA',
       url:  'https://signa.foxypool.io',
