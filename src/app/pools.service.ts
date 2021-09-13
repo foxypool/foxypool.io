@@ -46,6 +46,16 @@ export class PoolsService {
       imageName: 'chives-og',
       ticker: 'XCC',
     },{
+      coin: 'HDDCOIN',
+      name: 'Foxy-Pool HDDCOIN (OG)',
+      url: 'https://hddcoin-og.foxypool.io',
+      color: '#ffffff',
+      poolIdentifier: 'hddcoin-og',
+      apiUrl: 'https://api2.foxypool.io',
+      isPoStPool: true,
+      imageName: 'hddcoin-og',
+      ticker: 'HDD',
+    },{
       coin: 'BHD',
       name: 'Foxy-Pool BHD',
       url: 'https://bhd.foxypool.io',
