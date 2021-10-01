@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
-import {PoolsService} from "../pools.service";
+import {PoolsService} from '../pools.service';
 import * as Capacity from '../../shared/capacity.es5';
 import * as coinUtil from '../../shared/coin-util.es5';
-import {ApiV2GatewayService} from "../api-v2-gateway.service";
-import {ChiaGateway} from '../chia-gateway';
+import {PocApiGateway} from '../poc-api-gateway';
+import {PostApiGateway} from '../post-api-gateway';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,25 +13,22 @@ import {ChiaGateway} from '../chia-gateway';
 })
 export class DashboardComponent implements OnInit {
 
-  private apiV2GatewayService = new ApiV2GatewayService();
-  private chiaGatewaysByPoolIdentifier = {};
+  private pocApiGateway = new PocApiGateway();
+  private postApiGateway = new PostApiGateway();
 
   constructor(private poolsService: PoolsService) {}
 
   async ngOnInit() {
-    this.apiV2GatewayService.poolIdentifier = this.poolsService.pocPools
+    this.pocApiGateway.poolIdentifier = this.poolsService.pocPools
       .map((pool: any) => pool.poolIdentifier)
       .filter(identifier => !!identifier);
-    this.apiV2GatewayService.init();
-    await Promise.all(
-      this.poolsService.postPools
-        .filter(pool => pool.apiUrl && pool.poolIdentifier)
-        .map(async pool => {
-          this.chiaGatewaysByPoolIdentifier[pool.poolIdentifier] = new ChiaGateway(pool.apiUrl, [pool.poolIdentifier]);
-
-          await this.chiaGatewaysByPoolIdentifier[pool.poolIdentifier].init();
-        })
-    );
+    this.postApiGateway.poolIdentifier = this.poolsService.postPools
+      .map((pool: any) => pool.poolIdentifier)
+      .filter(identifier => !!identifier);
+    await Promise.all([
+      this.pocApiGateway.init(),
+      this.postApiGateway.init(),
+    ]);
   }
 
   get showTable() {
@@ -50,167 +47,123 @@ export class DashboardComponent implements OnInit {
     return this.poolsService.postPools;
   }
 
-  getPoolStats(pool: any) {
-    const gateway = pool.isPoStPool ? this.getChiaGateway(pool) : this.apiV2GatewayService;
-    if (!gateway) {
-      return null;
-    }
-    const statsSubject = gateway.getPoolStatsSubject(pool.poolIdentifier);
-    if (!statsSubject) {
-      return null;
-    }
-
-    return statsSubject.getValue();
-  }
-
-  getRoundStats(pool: any) {
-    if (pool.isPoStPool) {
-      return null;
-    }
-    const statsSubject = this.apiV2GatewayService.getRoundStatsSubject(pool.poolIdentifier);
-    if (!statsSubject) {
-      return null;
-    }
-
-    return statsSubject.getValue();
-  }
-
-  getAccountStats(pool: any) {
-    if (!pool.isPoStPool) {
-      return null;
-    }
-    const gateway = this.getChiaGateway(pool);
-    if (!gateway) {
-      return null;
-    }
-    const statsSubject = gateway.getAccountStatsSubject(pool.poolIdentifier);
-    if (!statsSubject) {
-      return null;
-    }
-
-    return statsSubject.getValue();
-  }
-
-  getExchangeStats(pool: any) {
-    if (!pool.isPoStPool) {
-      return null;
-    }
-    const gateway = this.getChiaGateway(pool);
-    if (!gateway) {
-      return null;
-    }
-    const statsSubject = gateway.getExchangeStatsSubject(pool.poolIdentifier);
-    if (!statsSubject) {
-      return null;
-    }
-
-    return statsSubject.getValue();
-  }
-
-  getRewardStats(pool: any) {
-    if (!pool.isPoStPool) {
-      return null;
-    }
-    const gateway = this.getChiaGateway(pool);
-    if (!gateway) {
-      return null;
-    }
-    const statsSubject = gateway.getRewardStatsSubject(pool.poolIdentifier);
-    if (!statsSubject) {
-      return null;
-    }
-
-    return statsSubject.getValue();
-  }
-
-  getChiaGateway(pool: any) {
-    return this.chiaGatewaysByPoolIdentifier[pool.poolIdentifier];
-  }
-
-  getMinersOfPool(pool) {
-    const stats = pool.isPoStPool ? this.getAccountStats(pool) : this.getPoolStats(pool);
-    if (!stats) {
+  getDailyRewardOfPostPool(pool) {
+    const rewardStats = this.postApiGateway.getRewardStatsValue(pool.poolIdentifier);
+    if (!rewardStats) {
       return 0;
     }
 
-    if (pool.isPoStPool) {
-      return stats.accountsWithShares || 0;
-    }
-
-    return stats.accountCount || stats.minerCount || 0;
+    return (rewardStats.dailyRewardPerPiB || 0);
   }
 
-  getMachinesOfPool(pool) {
-    if (pool.isPoStPool) {
-      return 'N/A';
-    }
-    const poolStatsSubject = this.apiV2GatewayService.getPoolStatsSubject(pool.poolIdentifier);
-    if (!poolStatsSubject) {
+  getDailyRewardOfPocPool(pool) {
+    const poolStats = this.pocApiGateway.getPoolStatsValue(pool.poolIdentifier);
+    if (!poolStats) {
       return 0;
     }
 
-    return poolStatsSubject.getValue().minerCount || 0;
+    return (poolStats.dailyRewardPerPiB || 0);
   }
 
-  getCapacityOfPool(pool) {
-    const stats = pool.isPoStPool ? this.getAccountStats(pool) : this.getPoolStats(pool);
-    if (!stats) {
-      return 0;
-    }
-    if (pool.isPoStPool) {
-      return this.getFormattedCapacityFromGiB(stats.ecSum || 0);
-    }
-
-    return this.getFormattedCapacityFromGiB(stats.totalCapacity || 0);
-  }
-
-  getRateOfPool(pool) {
-    const stats = pool.isPoStPool ? this.getExchangeStats(pool) : this.getPoolStats(pool);
-    if (!stats) {
-      return 0;
-    }
-    if (pool.isPoStPool) {
-      return (stats.rates && stats.rates.usd) || 0;
-    }
-
-    return (stats.rate || 0);
-  }
-
-  getDailyRewardOfPool(pool) {
-    const stats = pool.isPoStPool ? this.getRewardStats(pool) : this.getPoolStats(pool);
-    if (!stats) {
+  getRateOfPostPool(pool) {
+    const exchangeStats = this.postApiGateway.getExchangeStatsValue(pool.poolIdentifier);
+    if (!exchangeStats) {
       return 0;
     }
 
-    return (stats.dailyRewardPerPiB || 0);
+    return (exchangeStats.rates && exchangeStats.rates.usd) || 0;
   }
 
-  getWonRoundsPerDayOfPool(pool) {
-    const stats = pool.isPoStPool ? this.getRewardStats(pool) : this.getPoolStats(pool);
-    if (!stats) {
+  getRateOfPocPool(pool) {
+    const poolStats = this.pocApiGateway.getPoolStatsValue(pool.poolIdentifier);
+    if (!poolStats) {
       return 0;
     }
 
-    if (pool.isPoStPool) {
-      return (stats.recentlyWonBlocks || [])
-        .filter(wonBlock => moment(wonBlock.createdAt).isAfter(moment().subtract(1, 'day')))
-        .length;
-    }
-
-    return stats.roundsWonPerDay || 0;
+    return (poolStats.rate || 0);
   }
 
-  getNetDiffOfPool(pool) {
-    const stats = pool.isPoStPool ? this.getPoolStats(pool) : this.getRoundStats(pool);
-    if (!stats) {
+  getWonRoundsPerDayOfPostPool(pool) {
+    const rewardStats = this.postApiGateway.getRewardStatsValue(pool.poolIdentifier);
+    if (!rewardStats) {
       return 0;
     }
 
-    if (pool.isPoStPool) {
-      return this.getFormattedCapacityFromTiB(stats.networkSpaceInTiB);
+    return (rewardStats.recentlyWonBlocks || [])
+      .filter(wonBlock => moment(wonBlock.createdAt).isAfter(moment().subtract(1, 'day')))
+      .length;
+  }
+
+  getWonRoundsPerDayOfPocPool(pool) {
+    const poolStats = this.pocApiGateway.getPoolStatsValue(pool.poolIdentifier);
+    if (!poolStats) {
+      return 0;
     }
 
-    const round = stats.round;
+    return poolStats.roundsWonPerDay || 0;
+  }
+
+  getCapacityOfPostPool(pool) {
+    const accountStats = this.postApiGateway.getAccountStatsValue(pool.poolIdentifier);
+    if (!accountStats) {
+      return 0;
+    }
+
+    return this.getFormattedCapacityFromGiB(accountStats.ecSum || 0);
+  }
+
+  getCapacityOfPocPool(pool) {
+    const poolStats = this.pocApiGateway.getPoolStatsValue(pool.poolIdentifier);
+    if (!poolStats) {
+      return 0;
+    }
+
+    return this.getFormattedCapacityFromGiB(poolStats.totalCapacity || 0);
+  }
+
+  getAccountsOfPostPool(pool) {
+    const accountStats = this.postApiGateway.getAccountStatsValue(pool.poolIdentifier);
+    if (!accountStats) {
+      return 0;
+    }
+
+    return accountStats.accountsWithShares || 0;
+  }
+
+  getAccountsOfPocPool(pool) {
+    const poolStats = this.pocApiGateway.getPoolStatsValue(pool.poolIdentifier);
+    if (!poolStats) {
+      return 0;
+    }
+
+    return poolStats.accountCount || 0;
+  }
+
+  getMachinesOfPocPool(pool) {
+    const poolStats = this.pocApiGateway.getPoolStatsValue(pool.poolIdentifier);
+    if (!poolStats) {
+      return 0;
+    }
+
+    return poolStats.minerCount || 0;
+  }
+
+  getNetDiffOfPostPool(pool) {
+    const poolStats = this.postApiGateway.getPoolStatsValue(pool.poolIdentifier);
+    if (!poolStats) {
+      return 0;
+    }
+
+    return this.getFormattedCapacityFromTiB(poolStats.networkSpaceInTiB);
+  }
+
+  getNetDiffOfPocPool(pool) {
+    const roundStats = this.pocApiGateway.getRoundStatsValue(pool.poolIdentifier);
+    if (!roundStats) {
+      return 0;
+    }
+
+    const round = roundStats.round;
     if (!round) {
       return 0;
     }

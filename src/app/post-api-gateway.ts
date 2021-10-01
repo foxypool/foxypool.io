@@ -1,28 +1,27 @@
 import axios, {AxiosInstance} from 'axios';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from 'rxjs';
 
-export class ChiaGateway {
+export class PostApiGateway {
   private client: AxiosInstance;
+  public poolIdentifier: string[] = [];
   private statsByPoolIdentifier = {};
 
-  constructor(private url: string, private poolIdentifier: string[]) {
+  constructor() {
     this.client = axios.create({
-      baseURL: `${url}/api/v2`,
+      baseURL: 'https://api2.foxypool.io/api/v2',
     });
   }
 
-  init() {
+  async init() {
     this.poolIdentifier.forEach(poolIdentifier => {
       this.statsByPoolIdentifier[poolIdentifier] = {
-        poolConfig: new BehaviorSubject<any>({}),
         poolStats: new BehaviorSubject<any>({}),
         accountStats: new BehaviorSubject<any>({}),
         rewardStats: new BehaviorSubject<any>({}),
         exchangeStats: new BehaviorSubject<any>({}),
       };
     });
-    this.initStats();
-    setInterval(this.updatePoolConfig.bind(this), 60 * 60 * 1000);
+    await this.initStats();
     setInterval(this.updatePoolStats.bind(this), 31 * 1000);
     setInterval(this.updateAccountsStats.bind(this), 61 * 1000);
     setInterval(this.updateRewardStats.bind(this), 61 * 1000);
@@ -31,18 +30,11 @@ export class ChiaGateway {
 
   async initStats() {
     await Promise.all([
-      this.updatePoolConfig(),
       this.updatePoolStats(),
       this.updateAccountsStats(),
       this.updateRewardStats(),
       this.updateExchangeStats(),
     ]);
-  }
-
-  async updatePoolConfig() {
-    await Promise.all(this.poolIdentifier.map(async (poolIdentifier) => {
-      this.onNewPoolConfig(poolIdentifier, await this.getPoolConfig({ poolIdentifier }));
-    }));
   }
 
   async updatePoolStats() {
@@ -69,6 +61,42 @@ export class ChiaGateway {
     }));
   }
 
+  getPoolStatsValue(poolIdentifier) {
+    const subject = this.getPoolStatsSubject(poolIdentifier);
+    if (!subject) {
+      return null;
+    }
+
+    return subject.getValue();
+  }
+
+  getAccountStatsValue(poolIdentifier) {
+    const subject = this.getAccountStatsSubject(poolIdentifier);
+    if (!subject) {
+      return null;
+    }
+
+    return subject.getValue();
+  }
+
+  getRewardStatsValue(poolIdentifier) {
+    const subject = this.getRewardStatsSubject(poolIdentifier);
+    if (!subject) {
+      return null;
+    }
+
+    return subject.getValue();
+  }
+
+  getExchangeStatsValue(poolIdentifier) {
+    const subject = this.getExchangeStatsSubject(poolIdentifier);
+    if (!subject) {
+      return null;
+    }
+
+    return subject.getValue();
+  }
+
   getPoolStatsSubject(poolIdentifier) {
     return this.statsByPoolIdentifier[poolIdentifier].poolStats;
   }
@@ -85,10 +113,6 @@ export class ChiaGateway {
     return this.statsByPoolIdentifier[poolIdentifier].exchangeStats;
   }
 
-  onNewPoolConfig(poolIdentifier, poolConfig) {
-    this.statsByPoolIdentifier[poolIdentifier].poolConfig.next(poolConfig);
-  }
-
   onNewPoolStats(poolIdentifier, poolStats) {
     this.statsByPoolIdentifier[poolIdentifier].poolStats.next(poolStats);
   }
@@ -103,12 +127,6 @@ export class ChiaGateway {
 
   onNewRewardStats(poolIdentifier, rewardStats) {
     this.statsByPoolIdentifier[poolIdentifier].rewardStats.next(rewardStats);
-  }
-
-  async getPoolConfig({ poolIdentifier }) {
-    const { data } = await this.client.get(`${poolIdentifier}/config`);
-
-    return data;
   }
 
   async getPoolStats({ poolIdentifier }) {

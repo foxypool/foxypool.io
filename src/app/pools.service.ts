@@ -5,14 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class PoolsService {
 
-  public readonly _pools = [
+  private readonly pools = [
     {
       coin: 'CHIA',
       name: 'Foxy-Pool CHIA',
       url: 'https://chia.foxypool.io',
       color: '#0D324D',
       poolIdentifier: 'chia',
-      apiUrl: 'https://api2.foxypool.io',
       isPoStPool: true,
       ticker: 'XCH',
     },{
@@ -21,7 +20,6 @@ export class PoolsService {
       url: 'https://chia-og.foxypool.io',
       color: '#0D324D',
       poolIdentifier: 'chia-og',
-      apiUrl: 'https://api2.foxypool.io',
       isPoStPool: true,
       imageName: 'chia-og',
       ticker: 'XCH',
@@ -31,7 +29,6 @@ export class PoolsService {
       url: 'https://flax-og.foxypool.io',
       color: '#e6ffe6',
       poolIdentifier: 'flax-og',
-      apiUrl: 'https://api2.foxypool.io',
       isPoStPool: true,
       imageName: 'flax-og',
       ticker: 'XFX',
@@ -41,7 +38,6 @@ export class PoolsService {
       url: 'https://chives-og.foxypool.io',
       color: '#ffffff',
       poolIdentifier: 'chives-og',
-      apiUrl: 'https://api2.foxypool.io',
       isPoStPool: true,
       imageName: 'chives-og',
       ticker: 'XCC',
@@ -51,7 +47,6 @@ export class PoolsService {
       url: 'https://hddcoin-og.foxypool.io',
       color: '#ffffff',
       poolIdentifier: 'hddcoin-og',
-      apiUrl: 'https://api2.foxypool.io',
       isPoStPool: true,
       imageName: 'hddcoin-og',
       ticker: 'HDD',
@@ -72,17 +67,11 @@ export class PoolsService {
     },
   ];
 
-  constructor() {}
-
-  get pools() {
-    return this._pools;
-  }
-
   get pocPools() {
-    return this._pools.filter(pool => !pool.isPoStPool);
+    return this.pools.filter(pool => !pool.isPoStPool);
   }
 
   get postPools() {
-    return this._pools.filter(pool => pool.isPoStPool);
+    return this.pools.filter(pool => pool.isPoStPool);
   }
 }

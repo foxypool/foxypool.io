@@ -22,21 +22,15 @@
         </a>
       </td>
       <td><span class="badge badge-post" ngbTooltip="Proof of Spacetime" placement="right">PoSt</span></td>
-      <td *ngIf="pool.poolIdentifier">
-        {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
-        {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
+      <td>
+        {{getDailyRewardOfPostPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
+        {{(getDailyRewardOfPostPool(pool) * getRateOfPostPool(pool)).toFixed(2)}} USD / PiB
       </td>
-      <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier">{{getCapacityOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier">{{getMinersOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier && showFullTable">{{getMachinesOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier">{{getNetDiffOfPool(pool)}}</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier && showFullTable">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td>{{getWonRoundsPerDayOfPostPool(pool)}}</td>
+      <td>{{getCapacityOfPostPool(pool)}}</td>
+      <td>{{getAccountsOfPostPool(pool)}}</td>
+      <td *ngIf="showFullTable">N/A</td>
+      <td>{{getNetDiffOfPostPool(pool)}}</td>
     </tr>
     <tr *ngFor="let pool of pocPools">
       <td style="width: 16em;">
@@ -48,21 +42,15 @@
         </a>
       </td>
       <td><span class="badge badge-poc" ngbTooltip="Proof of Capacity" placement="right">PoC</span></td>
-      <td *ngIf="pool.poolIdentifier">
-        {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
-        {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
+      <td>
+        {{getDailyRewardOfPocPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
+        {{(getDailyRewardOfPocPool(pool) * getRateOfPocPool(pool)).toFixed(2)}} USD / PiB
       </td>
-      <td *ngIf="pool.poolIdentifier">{{getWonRoundsPerDayOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier">{{getCapacityOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier">{{getMinersOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier && showFullTable">{{getMachinesOfPool(pool)}}</td>
-      <td *ngIf="pool.poolIdentifier">{{getNetDiffOfPool(pool)}}</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
-      <td *ngIf="!pool.poolIdentifier && showFullTable">N/A</td>
-      <td *ngIf="!pool.poolIdentifier">N/A</td>
+      <td>{{getWonRoundsPerDayOfPocPool(pool)}}</td>
+      <td>{{getCapacityOfPocPool(pool)}}</td>
+      <td>{{getAccountsOfPocPool(pool)}}</td>
+      <td *ngIf="showFullTable">{{getMachinesOfPocPool(pool)}}</td>
+      <td>{{getNetDiffOfPocPool(pool)}}</td>
     </tr>
   </tbody>
 </table>
@@ -91,13 +79,10 @@
             <span class="card-font-size">Daily Reward</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier" class="font-weight-bold">
-            {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
-            {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span class="font-weight-bold">
+              {{getDailyRewardOfPostPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
+              {{(getDailyRewardOfPostPool(pool) * getRateOfPostPool(pool)).toFixed(2)}} USD / PiB
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -105,12 +90,9 @@
             <span class="card-font-size">Won (24h)</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-            {{getWonRoundsPerDayOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+              {{getWonRoundsPerDayOfPostPool(pool)}}
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -118,12 +100,9 @@
             <span class="card-font-size">Capacity</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-            {{getCapacityOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+              {{getCapacityOfPostPool(pool)}}
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -131,25 +110,9 @@
             <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-            {{getMinersOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
-          </div>
-        </div>
-        <div class="row justify-content-around p-1" *ngIf="!pool.isPoStPool">
-          <div class="col-6">
-            <span class="card-font-size">Machines</span>
-          </div>
-          <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-           {{getMachinesOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+              {{getAccountsOfPostPool(pool)}}
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -157,12 +120,9 @@
             <span class="card-font-size">NetDiff</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-            {{getNetDiffOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+              {{getNetDiffOfPostPool(pool)}}
+            </span>
           </div>
         </div>
       </div>
@@ -190,13 +150,10 @@
             <span class="card-font-size">Daily Reward</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier" class="font-weight-bold">
-            {{getDailyRewardOfPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
-            {{(getDailyRewardOfPool(pool) * getRateOfPool(pool)).toFixed(2)}} USD / PiB
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span class="font-weight-bold">
+              {{getDailyRewardOfPocPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
+              {{(getDailyRewardOfPocPool(pool) * getRateOfPocPool(pool)).toFixed(2)}} USD / PiB
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -204,12 +161,9 @@
             <span class="card-font-size">Won (24h)</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-            {{getWonRoundsPerDayOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+              {{getWonRoundsPerDayOfPocPool(pool)}}
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -217,12 +171,9 @@
             <span class="card-font-size">Capacity</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-            {{getCapacityOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+              {{getCapacityOfPocPool(pool)}}
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -230,12 +181,9 @@
             <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-            {{getMinersOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+              {{getAccountsOfPocPool(pool)}}
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1" *ngIf="!pool.isPoStPool">
@@ -243,12 +191,9 @@
             <span class="card-font-size">Machines</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-           {{getMachinesOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+             {{getMachinesOfPocPool(pool)}}
+            </span>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -256,12 +201,9 @@
             <span class="card-font-size">NetDiff</span>
           </div>
           <div class="col-6 text-center">
-          <span *ngIf="pool.poolIdentifier">
-            {{getNetDiffOfPool(pool)}}
-          </span>
-            <span *ngIf="!pool.poolIdentifier">
-            N/A
-          </span>
+            <span>
+              {{getNetDiffOfPocPool(pool)}}
+            </span>
           </div>
         </div>
       </div>
