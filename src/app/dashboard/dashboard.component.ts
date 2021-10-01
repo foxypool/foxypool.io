@@ -47,6 +47,42 @@ export class DashboardComponent implements OnInit {
     return this.poolsService.postPools;
   }
 
+  isRewardStatsLoadingForPostPool(pool) {
+    const rewardStats = this.postApiGateway.getRewardStatsValue(pool.poolIdentifier);
+
+    return !rewardStats || rewardStats.dailyRewardPerPiB === undefined;
+  }
+
+  isExchangeStatsLoadingForPostPool(pool) {
+    const exchangeStats = this.postApiGateway.getExchangeStatsValue(pool.poolIdentifier);
+
+    return !exchangeStats || exchangeStats.rates === undefined;
+  }
+
+  isAccountStatsLoadingForPostPool(pool) {
+    const accountStats = this.postApiGateway.getAccountStatsValue(pool.poolIdentifier);
+
+    return !accountStats || accountStats.ecSum === undefined;
+  }
+
+  isPoolStatsLoadingForPostPool(pool) {
+    const poolStats = this.postApiGateway.getPoolStatsValue(pool.poolIdentifier);
+
+    return !poolStats || poolStats.networkSpaceInTiB === undefined;
+  }
+
+  isPoolStatsLoadingForPocPool(pool) {
+    const poolStats = this.pocApiGateway.getPoolStatsValue(pool.poolIdentifier);
+
+    return !poolStats || poolStats.dailyRewardPerPiB === undefined;
+  }
+
+  isRoundStatsLoadingForPocPool(pool) {
+    const roundStats = this.pocApiGateway.getRoundStatsValue(pool.poolIdentifier);
+
+    return !roundStats || roundStats.round === undefined;
+  }
+
   getDailyRewardOfPostPool(pool) {
     const rewardStats = this.postApiGateway.getRewardStatsValue(pool.poolIdentifier);
     if (!rewardStats) {

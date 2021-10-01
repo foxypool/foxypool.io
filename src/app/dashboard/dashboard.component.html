@@ -22,15 +22,38 @@
         </a>
       </td>
       <td><span class="badge badge-post" ngbTooltip="Proof of Spacetime" placement="right">PoSt</span></td>
-      <td>
+      <td *ngIf="!isRewardStatsLoadingForPostPool(pool) && !isExchangeStatsLoadingForPostPool(pool)">
         {{getDailyRewardOfPostPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
         {{(getDailyRewardOfPostPool(pool) * getRateOfPostPool(pool)).toFixed(2)}} USD / PiB
       </td>
-      <td>{{getWonRoundsPerDayOfPostPool(pool)}}</td>
-      <td>{{getCapacityOfPostPool(pool)}}</td>
-      <td>{{getAccountsOfPostPool(pool)}}</td>
+      <td *ngIf="isRewardStatsLoadingForPostPool(pool) || isExchangeStatsLoadingForPostPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
+      <td *ngIf="!isRewardStatsLoadingForPostPool(pool)">
+        {{getWonRoundsPerDayOfPostPool(pool)}}
+      </td>
+      <td *ngIf="isRewardStatsLoadingForPostPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
+      <td *ngIf="!isAccountStatsLoadingForPostPool(pool)">
+        {{getCapacityOfPostPool(pool)}}
+      </td>
+      <td *ngIf="isAccountStatsLoadingForPostPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
+      <td *ngIf="!isAccountStatsLoadingForPostPool(pool)">
+        {{getAccountsOfPostPool(pool)}}
+      </td>
+      <td *ngIf="isAccountStatsLoadingForPostPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
       <td *ngIf="showFullTable">N/A</td>
-      <td>{{getNetDiffOfPostPool(pool)}}</td>
+      <td *ngIf="!isPoolStatsLoadingForPostPool(pool)">
+        {{getNetDiffOfPostPool(pool)}}
+      </td>
+      <td *ngIf="isPoolStatsLoadingForPostPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
     </tr>
     <tr *ngFor="let pool of pocPools">
       <td style="width: 16em;">
@@ -42,15 +65,41 @@
         </a>
       </td>
       <td><span class="badge badge-poc" ngbTooltip="Proof of Capacity" placement="right">PoC</span></td>
-      <td>
+      <td *ngIf="!isPoolStatsLoadingForPocPool(pool)">
         {{getDailyRewardOfPocPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
         {{(getDailyRewardOfPocPool(pool) * getRateOfPocPool(pool)).toFixed(2)}} USD / PiB
       </td>
-      <td>{{getWonRoundsPerDayOfPocPool(pool)}}</td>
-      <td>{{getCapacityOfPocPool(pool)}}</td>
-      <td>{{getAccountsOfPocPool(pool)}}</td>
-      <td *ngIf="showFullTable">{{getMachinesOfPocPool(pool)}}</td>
-      <td>{{getNetDiffOfPocPool(pool)}}</td>
+      <td *ngIf="isPoolStatsLoadingForPocPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
+      <td *ngIf="!isPoolStatsLoadingForPocPool(pool)">
+        {{getWonRoundsPerDayOfPocPool(pool)}}
+      </td>
+      <td *ngIf="isPoolStatsLoadingForPocPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
+      <td *ngIf="!isPoolStatsLoadingForPocPool(pool)">
+        {{getCapacityOfPocPool(pool)}}
+      </td>
+      <td *ngIf="isPoolStatsLoadingForPocPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
+      <td *ngIf="!isPoolStatsLoadingForPocPool(pool)">
+        {{getAccountsOfPocPool(pool)}}
+      </td>
+      <td *ngIf="isPoolStatsLoadingForPocPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
+      <td *ngIf="showFullTable && !isPoolStatsLoadingForPocPool(pool)">{{getMachinesOfPocPool(pool)}}</td>
+      <td *ngIf="showFullTable && isPoolStatsLoadingForPocPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
+      <td *ngIf="!isRoundStatsLoadingForPocPool(pool)">
+        {{getNetDiffOfPocPool(pool)}}
+      </td>
+      <td *ngIf="isRoundStatsLoadingForPocPool(pool)">
+        <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -79,10 +128,18 @@
             <span class="card-font-size">Daily Reward</span>
           </div>
           <div class="col-6 text-center">
-            <span class="font-weight-bold">
+            <span class="font-weight-bold"
+                  *ngIf="!isRewardStatsLoadingForPostPool(pool) && !isExchangeStatsLoadingForPostPool(pool)"
+            >
               {{getDailyRewardOfPostPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
               {{(getDailyRewardOfPostPool(pool) * getRateOfPostPool(pool)).toFixed(2)}} USD / PiB
             </span>
+            <app-loading-state
+              *ngIf="isRewardStatsLoadingForPostPool(pool) || isExchangeStatsLoadingForPostPool(pool)"
+              [height]="2.9"
+              [width]="2.9"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -90,9 +147,15 @@
             <span class="card-font-size">Won (24h)</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isRewardStatsLoadingForPostPool(pool)">
               {{getWonRoundsPerDayOfPostPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isRewardStatsLoadingForPostPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -100,9 +163,15 @@
             <span class="card-font-size">Capacity</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isAccountStatsLoadingForPostPool(pool)">
               {{getCapacityOfPostPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isAccountStatsLoadingForPostPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -110,9 +179,15 @@
             <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isAccountStatsLoadingForPostPool(pool)">
               {{getAccountsOfPostPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isAccountStatsLoadingForPostPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -120,9 +195,15 @@
             <span class="card-font-size">NetDiff</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isPoolStatsLoadingForPostPool(pool)">
               {{getNetDiffOfPostPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isPoolStatsLoadingForPostPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
       </div>
@@ -150,10 +231,16 @@
             <span class="card-font-size">Daily Reward</span>
           </div>
           <div class="col-6 text-center">
-            <span class="font-weight-bold">
+            <span class="font-weight-bold" *ngIf="!isPoolStatsLoadingForPocPool(pool)">
               {{getDailyRewardOfPocPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
               {{(getDailyRewardOfPocPool(pool) * getRateOfPocPool(pool)).toFixed(2)}} USD / PiB
             </span>
+            <app-loading-state
+              *ngIf="isPoolStatsLoadingForPocPool(pool)"
+              [height]="2.9"
+              [width]="2.9"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -161,9 +248,15 @@
             <span class="card-font-size">Won (24h)</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isPoolStatsLoadingForPocPool(pool)">
               {{getWonRoundsPerDayOfPocPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isPoolStatsLoadingForPocPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -171,9 +264,15 @@
             <span class="card-font-size">Capacity</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isPoolStatsLoadingForPocPool(pool)">
               {{getCapacityOfPocPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isPoolStatsLoadingForPocPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -181,9 +280,15 @@
             <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isPoolStatsLoadingForPocPool(pool)">
               {{getAccountsOfPocPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isPoolStatsLoadingForPocPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1" *ngIf="!pool.isPoStPool">
@@ -191,9 +296,15 @@
             <span class="card-font-size">Machines</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isPoolStatsLoadingForPocPool(pool)">
              {{getMachinesOfPocPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isPoolStatsLoadingForPocPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
         <div class="row justify-content-around p-1">
@@ -201,9 +312,15 @@
             <span class="card-font-size">NetDiff</span>
           </div>
           <div class="col-6 text-center">
-            <span>
+            <span *ngIf="!isRoundStatsLoadingForPocPool(pool)">
               {{getNetDiffOfPocPool(pool)}}
             </span>
+            <app-loading-state
+              *ngIf="isRoundStatsLoadingForPocPool(pool)"
+              [height]="1.5"
+              [width]="1.5"
+              fontSize="12px">
+            </app-loading-state>
           </div>
         </div>
       </div>
