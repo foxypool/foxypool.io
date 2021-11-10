@@ -51,6 +51,15 @@ export class PoolsService {
       imageName: 'hddcoin-og',
       ticker: 'HDD',
     },{
+      coin: 'STAI',
+      name: 'Foxy-Pool STAI (OG)',
+      url: 'https://stai-og.foxypool.io',
+      color: '#363636',
+      poolIdentifier: 'stai-og',
+      isPoStPool: true,
+      imageName: 'stai-og',
+      ticker: 'STAI',
+    },{
       coin: 'BHD',
       name: 'Foxy-Pool BHD',
       url: 'https://bhd.foxypool.io',
