@@ -32,7 +32,16 @@ export class PoolsService {
       isPoStPool: true,
       imageName: 'flax-og',
       ticker: 'XFX',
-    },{
+    }, {
+      coin: 'CHIVES',
+      name: 'Foxy-Pool CHIVES',
+      url: 'https://chives.foxypool.io',
+      color: '#ffffff',
+      poolIdentifier: 'chives',
+      isPoStPool: true,
+      imageName: 'chives',
+      ticker: 'XCC',
+    }, {
       coin: 'CHIVES',
       name: 'Foxy-Pool CHIVES (OG)',
       url: 'https://chives-og.foxypool.io',
