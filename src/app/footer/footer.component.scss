@@ -26,3 +26,10 @@ hr {
     display: none;
   }
 }
+.footer-spacer {
+  aspect-ratio: 960/96;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-image: url('./spacer.svg');
+}
