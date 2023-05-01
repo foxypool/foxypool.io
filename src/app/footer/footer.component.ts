@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import {faDiscord, faGithub, faTwitter} from '@fortawesome/free-brands-svg-icons';
-import * as moment from 'moment';
+import { Component } from '@angular/core'
+import {faDiscord, faGithub, faTwitter} from '@fortawesome/free-brands-svg-icons'
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-footer',
@@ -9,9 +9,9 @@ import * as moment from 'moment';
 })
 export class FooterComponent {
 
-  public faDiscord = faDiscord;
-  public faGithub = faGithub;
-  public faTwitter = faTwitter;
+  public faDiscord = faDiscord
+  public faGithub = faGithub
+  public faTwitter = faTwitter
 
-  public currentYear: string = moment().format('YYYY');
+  public currentYear: string = moment().format('YYYY')
 }

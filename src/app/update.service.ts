@@ -1,40 +1,40 @@
-import {ApplicationRef, Injectable, OnDestroy} from '@angular/core';
+import {ApplicationRef, Injectable, OnDestroy} from '@angular/core'
 import {SwUpdate, VersionReadyEvent} from '@angular/service-worker'
-import {ToastService} from './toast.service';
-import {filter, first} from 'rxjs/operators';
-import {concat, interval, Subscription} from 'rxjs';
+import {ToastService} from './toast.service'
+import {filter, first} from 'rxjs/operators'
+import {concat, interval, Subscription} from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateService implements OnDestroy {
-  private subscriptions: Subscription[] = [
+  private readonly subscriptions: Subscription[] = [
     this.swUpdate.versionUpdates
       .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
       .subscribe(async () => {
-        this.toastService.showInfoToast('Updating to the latest version ..', '', { timeOut: 2 * 1000 });
-        await new Promise(resolve => setTimeout(resolve, 2 * 1000));
-        await this.swUpdate.activateUpdate();
-        document.location.reload();
+        this.toastService.showInfoToast('Updating to the latest version ..', '', { timeOut: 2 * 1000 })
+        await new Promise(resolve => setTimeout(resolve, 2 * 1000))
+        await this.swUpdate.activateUpdate()
+        document.location.reload()
       }),
-  ];
+  ]
 
   public constructor(
-    private swUpdate: SwUpdate,
-    private toastService: ToastService,
+    private readonly swUpdate: SwUpdate,
+    private readonly toastService: ToastService,
     appRef: ApplicationRef,
   ) {
     if (!swUpdate.isEnabled) {
-      return;
+      return
     }
-    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
-    const everySixHours$ = interval(6 * 60 * 60 * 1000);
-    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
+    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true))
+    const everySixHours$ = interval(6 * 60 * 60 * 1000)
+    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$)
 
-    this.subscriptions.push(everySixHoursOnceAppIsStable$.subscribe(() => swUpdate.checkForUpdate()));
+    this.subscriptions.push(everySixHoursOnceAppIsStable$.subscribe(() => swUpdate.checkForUpdate()))
   }
 
   public ngOnDestroy(): void {
-    this.subscriptions.map(subscription => subscription.unsubscribe());
+    this.subscriptions.map(subscription => subscription.unsubscribe())
   }
 }

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {UpdateService} from "./update.service";
+import { Component } from '@angular/core'
+import {UpdateService} from "./update.service"
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,7 @@ import {UpdateService} from "./update.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'app'
 
-  constructor(private updateService: UpdateService) {}
+  constructor(private readonly updateService: UpdateService) {}
 }

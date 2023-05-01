@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
@@ -38,13 +38,13 @@ export class PoolsService {
       poolIdentifier: 'signa',
       ticker: 'SIGNA',
     },
-  ];
+  ]
 
   get pocPools() {
-    return this.pools.filter(pool => !pool.isPoStPool);
+    return this.pools.filter(pool => !pool.isPoStPool)
   }
 
   get postPools() {
-    return this.pools.filter(pool => pool.isPoStPool);
+    return this.pools.filter(pool => pool.isPoStPool)
   }
 }
