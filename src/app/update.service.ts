@@ -1,7 +1,7 @@
 import {ApplicationRef, Injectable} from '@angular/core';
-import {SwUpdate} from '@angular/service-worker';
+import {SwUpdate, VersionReadyEvent} from '@angular/service-worker'
 import {ToastService} from './toast.service';
-import {first} from 'rxjs/operators';
+import {filter, first} from 'rxjs/operators'
 import {concat, interval} from 'rxjs';
 
 @Injectable({
@@ -16,12 +16,14 @@ export class UpdateService {
     if (!swUpdate.isEnabled) {
       return;
     }
-    swUpdate.available.subscribe(async () => {
-      toastService.showInfoToast('Updating to the latest version ..', '', { timeOut: 2 * 1000 });
-      await new Promise(resolve => setTimeout(resolve, 2 * 1000));
-      await swUpdate.activateUpdate();
-      document.location.reload();
-    });
+    swUpdate.versionUpdates
+      .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
+      .subscribe(async () => {
+        toastService.showInfoToast('Updating to the latest version ..', '', { timeOut: 2 * 1000 });
+        await new Promise(resolve => setTimeout(resolve, 2 * 1000));
+        await swUpdate.activateUpdate();
+        document.location.reload();
+      });
 
     const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
     const everySixHours$ = interval(6 * 60 * 60 * 1000);
