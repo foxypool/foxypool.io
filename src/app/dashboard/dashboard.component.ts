@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
 import {PoolsService} from '../pools.service';
-import * as Capacity from '../../shared/capacity.es5';
 import * as coinUtil from '../../shared/coin-util.es5';
 import {PocApiGateway} from '../poc-api-gateway';
 import {PostApiGateway} from '../post-api-gateway';
+import Capacity from '../capacity'
 
 @Component({
   selector: 'app-dashboard',

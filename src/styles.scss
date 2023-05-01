@@ -1,9 +1,24 @@
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 @import 'bootstrap/scss/mixins';
-@import 'ngx-toastr/toastr-bs4-alert';
+@import 'ngx-toastr/toastr-bs5-alert';
 
-.table th { border-top: none; }
+.table th {
+  border-color: #454d55;
+}
+.table td {
+  border-color: #454d55;
+  padding: 0.75rem;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.form-check-input {
+  margin-top: 6px;
+}
 
 html, body {
   height: 100%;
