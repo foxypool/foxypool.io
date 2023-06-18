@@ -24,13 +24,6 @@ export class PoolsService {
       imageName: 'chia-og',
       ticker: 'XCH',
     }, {
-      coin: 'BHD',
-      name: 'Foxy-Pool BHD',
-      url: 'https://bhd.foxypool.io',
-      color: '#05162f',
-      poolIdentifier: 'bhd',
-      ticker: 'BHD',
-    }, {
       coin: 'SIGNA',
       name: 'Foxy-Pool SIGNA',
       url:  'https://signa.foxypool.io',
