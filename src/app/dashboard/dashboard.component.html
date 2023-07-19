@@ -8,7 +8,6 @@
         <th scope="col">Won (24h)</th>
         <th scope="col">Capacity</th>
         <th scope="col">Miner</th>
-        <th scope="col" *ngIf="showFullTable">Machines</th>
         <th scope="col">NetDiff</th>
       </tr>
     </thead>
@@ -48,57 +47,10 @@
         <td *ngIf="isAccountStatsLoadingForPostPool(pool)">
           <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
         </td>
-        <td *ngIf="showFullTable">N/A</td>
         <td *ngIf="!isPoolStatsLoadingForPostPool(pool)">
           {{getNetDiffOfPostPool(pool)}}
         </td>
         <td *ngIf="isPoolStatsLoadingForPostPool(pool)">
-          <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
-        </td>
-      </tr>
-      <tr *ngFor="let pool of pocPools">
-        <td style="width: 16em;">
-          <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
-            <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
-              <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
-              <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
-            </div>
-          </a>
-        </td>
-        <td><span class="badge badge-poc" ngbTooltip="Proof of Capacity">PoC</span></td>
-        <td *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-          {{getDailyRewardOfPocPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
-          {{(getDailyRewardOfPocPool(pool) * getRateOfPocPool(pool)).toFixed(2)}} USD / PiB
-        </td>
-        <td *ngIf="isPoolStatsLoadingForPocPool(pool)">
-          <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
-        </td>
-        <td *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-          {{getWonRoundsPerDayOfPocPool(pool)}}
-        </td>
-        <td *ngIf="isPoolStatsLoadingForPocPool(pool)">
-          <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
-        </td>
-        <td *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-          {{getCapacityOfPocPool(pool)}}
-        </td>
-        <td *ngIf="isPoolStatsLoadingForPocPool(pool)">
-          <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
-        </td>
-        <td *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-          {{getAccountsOfPocPool(pool)}}
-        </td>
-        <td *ngIf="isPoolStatsLoadingForPocPool(pool)">
-          <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
-        </td>
-        <td *ngIf="showFullTable && !isPoolStatsLoadingForPocPool(pool)">{{getMachinesOfPocPool(pool)}}</td>
-        <td *ngIf="showFullTable && isPoolStatsLoadingForPocPool(pool)">
-          <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
-        </td>
-        <td *ngIf="!isRoundStatsLoadingForPocPool(pool)">
-          {{getNetDiffOfPocPool(pool)}}
-        </td>
-        <td *ngIf="isRoundStatsLoadingForPocPool(pool)">
           <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
         </td>
       </tr>
@@ -202,123 +154,6 @@
             </span>
             <app-loading-state
               *ngIf="isPoolStatsLoadingForPostPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card" style="min-width: 300px; margin: 4px" *ngFor="let pool of pocPools">
-      <div class="card-header">
-        <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
-          <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
-            <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
-            <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
-          </div>
-        </a>
-      </div>
-      <div class="card-body">
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">Algorithm</span>
-          </div>
-          <div class="col-6 text-center">
-            <span class="badge badge-poc" ngbTooltip="Proof of Capacity">PoC</span>
-          </div>
-        </div>
-        <div class="row justify-content-around p-1 align-items-center">
-          <div class="col-6">
-            <span class="card-font-size">Daily Reward</span>
-          </div>
-          <div class="col-6 text-center">
-            <span class="fw-bold" *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-              {{getDailyRewardOfPocPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
-              {{(getDailyRewardOfPocPool(pool) * getRateOfPocPool(pool)).toFixed(2)}} USD / PiB
-            </span>
-            <app-loading-state
-              *ngIf="isPoolStatsLoadingForPocPool(pool)"
-              [height]="2.9"
-              [width]="2.9"
-              fontSize="12px">
-            </app-loading-state>
-          </div>
-        </div>
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">Won (24h)</span>
-          </div>
-          <div class="col-6 text-center">
-            <span *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-              {{getWonRoundsPerDayOfPocPool(pool)}}
-            </span>
-            <app-loading-state
-              *ngIf="isPoolStatsLoadingForPocPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
-          </div>
-        </div>
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">Capacity</span>
-          </div>
-          <div class="col-6 text-center">
-            <span *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-              {{getCapacityOfPocPool(pool)}}
-            </span>
-            <app-loading-state
-              *ngIf="isPoolStatsLoadingForPocPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
-          </div>
-        </div>
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
-          </div>
-          <div class="col-6 text-center">
-            <span *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-              {{getAccountsOfPocPool(pool)}}
-            </span>
-            <app-loading-state
-              *ngIf="isPoolStatsLoadingForPocPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
-          </div>
-        </div>
-        <div class="row justify-content-around p-1" *ngIf="!pool.isPoStPool">
-          <div class="col-6">
-            <span class="card-font-size">Machines</span>
-          </div>
-          <div class="col-6 text-center">
-            <span *ngIf="!isPoolStatsLoadingForPocPool(pool)">
-             {{getMachinesOfPocPool(pool)}}
-            </span>
-            <app-loading-state
-              *ngIf="isPoolStatsLoadingForPocPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
-          </div>
-        </div>
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">NetDiff</span>
-          </div>
-          <div class="col-6 text-center">
-            <span *ngIf="!isRoundStatsLoadingForPocPool(pool)">
-              {{getNetDiffOfPocPool(pool)}}
-            </span>
-            <app-loading-state
-              *ngIf="isRoundStatsLoadingForPocPool(pool)"
               [height]="1.5"
               [width]="1.5"
               fontSize="12px">

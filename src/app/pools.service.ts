@@ -23,19 +23,8 @@ export class PoolsService {
       isPoStPool: true,
       imageName: 'chia-og',
       ticker: 'XCH',
-    }, {
-      coin: 'SIGNA',
-      name: 'Foxy-Pool SIGNA',
-      url:  'https://signa.foxypool.io',
-      color: '#ffffff',
-      poolIdentifier: 'signa',
-      ticker: 'SIGNA',
     },
   ]
-
-  get pocPools() {
-    return this.pools.filter(pool => !pool.isPoStPool)
-  }
 
   get postPools() {
     return this.pools.filter(pool => pool.isPoStPool)
