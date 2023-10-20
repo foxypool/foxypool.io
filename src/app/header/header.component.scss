@@ -1,23 +1,11 @@
-.dropdown-menu {
-  background-color: #2f3136;
-  color: #cfd0d1;
-}
-.dropdown-item {
-  color: #cfd0d1;
-}
-.dropdown-divider {
-  border-top: 1px solid #262629;
-}
-.dropdown-item:focus, .dropdown-item:hover {
-  background-color: #262629;
-}
 .sticky-navbar {
-  background-color: #2f3136;
+  background-color: var(--navbar-background-color);
   top: 0;
   width: 100%;
   z-index: 1030;
   padding-left: 1em;
   padding-right: 1em;
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.07), inset 0 -1px 0 rgba(0,0,0,0.07);
 }
 @media (min-width: 1700px) {
   .sticky-navbar {
@@ -30,4 +18,74 @@
     padding-left: 7%;
     padding-right: 7%;
   }
+}
+
+.theme-switcher-checkbox {
+  font-size: 18px;
+}
+.theme-switcher-label {
+  display: flex;
+  width: 75px;
+  height: 35px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6px;
+  background: #222;
+  border-radius: 50px;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+}
+.theme-switcher-checkbox:checked + .theme-switcher-label {
+  background: #c0c0c0;
+}
+.theme-switcher-checkbox:checked + .theme-switcher-label .theme-switcher-ball {
+  background: #222;
+}
+.theme-switcher-checkbox {
+  display: none;
+}
+.theme-switcher-sun-icon {
+  color: goldenrod;
+  transition: 0.3s;
+}
+.theme-switcher-moon-icon {
+  color: #fff;
+  transition: 0.3s;
+}
+.theme-switcher-ball {
+  display: none;
+}
+.theme-switcher-checkbox:checked + label .theme-switcher-sun-icon {
+  transform: translateX(-43px) rotate(160deg);
+}
+.theme-switcher-checkbox:checked + label .theme-switcher-moon-icon {
+  transform: translateX(0) rotate(0);
+}
+.theme-switcher-label .theme-switcher-moon-icon {
+  opacity: 0;
+  transform: translateX(43px) rotate(250deg);
+}
+.theme-switcher-label .theme-switcher-sun-icon {
+  opacity: 1;
+}
+.theme-switcher-checkbox:checked + label .theme-switcher-sun-icon {
+  opacity: 0;
+}
+.theme-switcher-checkbox:checked + label .theme-switcher-moon-icon {
+  opacity: 1;
+}
+.theme-switcher-label .theme-switcher-ball {
+  position: absolute;
+  display: block;
+  width: 25px;
+  height: 25px;
+  top: 5px;
+  left: 5px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.theme-switcher-checkbox:checked + .theme-switcher-label .theme-switcher-ball {
+  transform: translateX(40px);
 }

@@ -12,20 +12,18 @@ th {
 }
 .badge {
   padding: 0.25em 0.4em;
-  color: #cfd0d1;
+  color: var(--badge-color);
 }
 .badge-post {
   background-color: #198c1c;
   font-size: larger;
-}
-.card {
-  background-color: #2f3136;
 }
 .card-header {
   padding-bottom: 0.15rem;
 }
 .card-body {
   padding-top: 1rem;
+  color: var(--text-color);
 }
 .card-font-size {
   font-size: 18px;

@@ -10,6 +10,15 @@ import Capacity from '../capacity'
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  public get cardRowClasses(): string[] {
+    const poolCount = this.postPools.length
+
+    return [
+      `row-cols-sm-${Math.min(2, poolCount)}`,
+      `row-cols-md-${Math.min(3, poolCount)}`,
+      `row-cols-xl-${Math.min(4, poolCount)}`,
+    ]
+  }
 
   private readonly postApiGateway = new PostApiGateway()
 

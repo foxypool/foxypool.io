@@ -1,13 +1,94 @@
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 @import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/bootstrap';
 @import 'ngx-toastr/toastr-bs5-alert';
 
+body {
+  --text-color: #000;
+  --background-color: #fff;
+  --card-background-color: initial;
+  --dropdown-menu-background-color: #fff;
+  --dropdown-item-background-color-hover: #e9ecef;
+  --dropdown-item-divider-color: initial;
+  --table-border-color: initial;
+  --dot-default-color: initial;
+  --date-formatting-icon-color: initial;
+  --info-icon-color: initial;
+  --info-icon-color-hover: rgba(0, 0, 0, 0.6);
+  --navbar-background-color: rgb(248, 249, 250);
+  --input-field-background-color: initial;
+  --input-field-border-color: initial;
+  --button-background-color: initial;
+  --button-border-color: initial;
+  --button-background-color-hover: #d3d4d5;
+  --button-border-color-hover: #c6c7c8;
+  --button-color-hover: initial;
+  --select-item-background-color: initial;
+  --footer-background-color: rgb(248, 249, 250);
+  --highlight-color: rgba(0, 0, 0, 0.9);
+  --highlight-color-hover: rgba(0, 0, 0, 0.6);
+  --footer-spacer-background-image: url('./app/footer/spacer-light.svg');
+  --progress-bar-background-color: #e9ecef;
+  --page-link-background-color: #fff;
+  --page-link-border-color: rgba(0, 0, 0, 0.4);
+  --nav-tabs-bottom-border-color: #e9ecef;
+  --brand-text-color: #000;
+  --badge-color: #fff;
+}
+
+body.dark-theme {
+  --text-color: #cfd0d1;
+  --background-color: #36393f;
+  --card-background-color: #2f3136;
+  --dropdown-menu-background-color: #2f3136;
+  --dropdown-item-background-color-hover: #262629;
+  --dropdown-item-divider-color: #262629;
+  --table-border-color: #454d55;
+  --dot-default-color: #bbb;
+  --date-formatting-icon-color: rgba(255, 255, 255, 0.6);
+  --info-icon-color: rgba(255, 255, 255, 0.4);
+  --info-icon-color-hover: rgba(255, 255, 255, 0.9);
+  --navbar-background-color: #2f3136;
+  --input-field-background-color: #262629;
+  --input-field-border-color: #6c757d;
+  --button-background-color: #262629;
+  --button-border-color: #6c757d;
+  --button-background-color-hover: #f8f9fa;
+  --button-border-color-hover: #f8f9fa;
+  --button-color-hover: #212529;
+  --select-item-background-color: #262629;
+  --footer-background-color: #2b2e33;
+  --highlight-color: rgba(255, 255, 255, 0.6);
+  --highlight-color-hover: rgba(255, 255, 255, 0.9);
+  --footer-spacer-background-image: url('./app/footer/spacer.svg');
+  --progress-bar-background-color: #262629;
+  --page-link-background-color: #262629;
+  --page-link-border-color: #18191c;
+  --nav-tabs-bottom-border-color: #2b2e33;
+  --brand-text-color: #fff;
+  --badge-color: #cfd0d1;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+table {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+
 .table th {
-  border-color: #454d55;
+  border-color: var(--table-border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 .table td {
-  border-color: #454d55;
+  border-color: var(--table-border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
   padding: 0.75rem;
 }
 a {
@@ -23,9 +104,17 @@ a:hover {
 html, body {
   height: 100%;
 }
-.dark-theme {
-  background-color: #36393f;
-  color: #cfd0d1;
+
+.card {
+  background-color: var(--card-background-color);
+}
+.dot {
+  margin-top: 3px;
+  height: 0.66rem;
+  width: 0.66rem;
+  background-color: var(--dot-default-color);
+  border-radius: 50%;
+  display: inline-block;
 }
 
 @media (min-width: 1700px) {

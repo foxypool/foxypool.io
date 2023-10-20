@@ -1,5 +1,5 @@
 footer {
-  background-color: #2b2e33;
+  background-color: var(--footer-background-color);
 }
 hr {
   background-color: #18191c;
@@ -20,10 +20,10 @@ hr {
 .highlight {
   -webkit-transition: color 0.3s;
   transition: color 0.3s;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--highlight-color);
 }
 .highlight:hover{
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--highlight-color-hover);
 }
 @media (max-width: 715px) {
   .footer-logo {
@@ -35,5 +35,5 @@ hr {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  background-image: url('./spacer.svg');
+  background-image: var(--footer-spacer-background-image);
 }

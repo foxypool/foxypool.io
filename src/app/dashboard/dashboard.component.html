@@ -1,5 +1,5 @@
 <div *ngIf="showTable" class="table-responsive-lg">
-  <table class="table dark-theme">
+  <table class="table">
     <thead>
       <tr>
         <th scope="col">Pool</th>
@@ -58,106 +58,108 @@
   </table>
 </div>
 <div *ngIf="!showTable" style="padding-bottom: 3em">
-  <div class="card-group">
-    <div class="card" style="min-width: 300px; margin: 4px" *ngFor="let pool of postPools">
-      <div class="card-header">
-        <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
-          <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
-            <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
-            <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
-          </div>
-        </a>
-      </div>
-      <div class="card-body">
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">Algorithm</span>
-          </div>
-          <div class="col-6 text-center">
-            <span class="badge badge-post" ngbTooltip="Proof of Spacetime">PoSt</span>
-          </div>
+  <div class="row row-cols-1 g-2" [ngClass]="cardRowClasses">
+    <div class="col" *ngFor="let pool of postPools">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
+            <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
+              <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
+              <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
+            </div>
+          </a>
         </div>
-        <div class="row justify-content-around p-1 align-items-center">
-          <div class="col-6">
-            <span class="card-font-size">Daily Reward</span>
+        <div class="card-body">
+          <div class="row justify-content-around p-1">
+            <div class="col-6">
+              <span class="card-font-size">Algorithm</span>
+            </div>
+            <div class="col-6 text-center">
+              <span class="badge badge-post" ngbTooltip="Proof of Spacetime">PoSt</span>
+            </div>
           </div>
-          <div class="col-6 text-center">
+          <div class="row justify-content-around p-1 align-items-center">
+            <div class="col-6">
+              <span class="card-font-size">Daily Reward</span>
+            </div>
+            <div class="col-6 text-center">
             <span class="fw-bold"
                   *ngIf="!isRewardStatsLoadingForPostPool(pool) && !isExchangeStatsLoadingForPostPool(pool)"
             >
               {{getDailyRewardOfPostPool(pool).toFixed(2)}} {{pool.ticker}} / PiB<br>
               {{(getDailyRewardOfPostPool(pool) * getRateOfPostPool(pool)).toFixed(2)}} USD / PiB
             </span>
-            <app-loading-state
-              *ngIf="isRewardStatsLoadingForPostPool(pool) || isExchangeStatsLoadingForPostPool(pool)"
-              [height]="2.9"
-              [width]="2.9"
-              fontSize="12px">
-            </app-loading-state>
+              <app-loading-state
+                *ngIf="isRewardStatsLoadingForPostPool(pool) || isExchangeStatsLoadingForPostPool(pool)"
+                [height]="2.9"
+                [width]="2.9"
+                fontSize="12px">
+              </app-loading-state>
+            </div>
           </div>
-        </div>
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">Won (24h)</span>
-          </div>
-          <div class="col-6 text-center">
+          <div class="row justify-content-around p-1">
+            <div class="col-6">
+              <span class="card-font-size">Won (24h)</span>
+            </div>
+            <div class="col-6 text-center">
             <span *ngIf="!isRewardStatsLoadingForPostPool(pool)">
               {{getWonRoundsPerDayOfPostPool(pool)}}
             </span>
-            <app-loading-state
-              *ngIf="isRewardStatsLoadingForPostPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
+              <app-loading-state
+                *ngIf="isRewardStatsLoadingForPostPool(pool)"
+                [height]="1.5"
+                [width]="1.5"
+                fontSize="12px">
+              </app-loading-state>
+            </div>
           </div>
-        </div>
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">Capacity</span>
-          </div>
-          <div class="col-6 text-center">
+          <div class="row justify-content-around p-1">
+            <div class="col-6">
+              <span class="card-font-size">Capacity</span>
+            </div>
+            <div class="col-6 text-center">
             <span *ngIf="!isAccountStatsLoadingForPostPool(pool)">
               {{getCapacityOfPostPool(pool)}}
             </span>
-            <app-loading-state
-              *ngIf="isAccountStatsLoadingForPostPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
+              <app-loading-state
+                *ngIf="isAccountStatsLoadingForPostPool(pool)"
+                [height]="1.5"
+                [width]="1.5"
+                fontSize="12px">
+              </app-loading-state>
+            </div>
           </div>
-        </div>
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
-          </div>
-          <div class="col-6 text-center">
+          <div class="row justify-content-around p-1">
+            <div class="col-6">
+              <span class="card-font-size">{{pool.isPoStPool ? 'Farmer' : 'Miner'}}</span>
+            </div>
+            <div class="col-6 text-center">
             <span *ngIf="!isAccountStatsLoadingForPostPool(pool)">
               {{getAccountsOfPostPool(pool)}}
             </span>
-            <app-loading-state
-              *ngIf="isAccountStatsLoadingForPostPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
+              <app-loading-state
+                *ngIf="isAccountStatsLoadingForPostPool(pool)"
+                [height]="1.5"
+                [width]="1.5"
+                fontSize="12px">
+              </app-loading-state>
+            </div>
           </div>
-        </div>
-        <div class="row justify-content-around p-1">
-          <div class="col-6">
-            <span class="card-font-size">NetDiff</span>
-          </div>
-          <div class="col-6 text-center">
+          <div class="row justify-content-around p-1">
+            <div class="col-6">
+              <span class="card-font-size">NetDiff</span>
+            </div>
+            <div class="col-6 text-center">
             <span *ngIf="!isPoolStatsLoadingForPostPool(pool)">
               {{getNetDiffOfPostPool(pool)}}
             </span>
-            <app-loading-state
-              *ngIf="isPoolStatsLoadingForPostPool(pool)"
-              [height]="1.5"
-              [width]="1.5"
-              fontSize="12px">
-            </app-loading-state>
+              <app-loading-state
+                *ngIf="isPoolStatsLoadingForPostPool(pool)"
+                [height]="1.5"
+                [width]="1.5"
+                fontSize="12px">
+              </app-loading-state>
+            </div>
           </div>
         </div>
       </div>
