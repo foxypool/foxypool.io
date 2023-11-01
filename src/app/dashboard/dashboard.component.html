@@ -61,9 +61,9 @@
   <div class="row row-cols-1 g-2" [ngClass]="cardRowClasses">
     <div class="col" *ngFor="let pool of postPools">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header p-0">
           <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
-            <div style="text-align: center; vertical-align: middle; border-radius: 7px" [style.background-color]="pool.color">
+            <div style="text-align: center; vertical-align: middle;" class="card-pool-image-wrapper" [style.background-color]="pool.color">
               <img src="assets/{{getPoolImageName(pool)}}.png" style="height: 2.4em;padding-top: 3px; padding-bottom: 3px">
               <span *ngIf="pool.isEco" style="vertical-align: text-top;font-style: italic" [style.color]="pool.ecoTextColor"> ECO</span>
             </div>

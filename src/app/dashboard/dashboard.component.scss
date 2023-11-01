@@ -18,13 +18,13 @@ th {
   background-color: #198c1c;
   font-size: larger;
 }
-.card-header {
-  padding-bottom: 0.15rem;
-}
 .card-body {
   padding-top: 1rem;
   color: var(--text-color);
 }
 .card-font-size {
   font-size: 18px;
+}
+.card-pool-image-wrapper {
+  border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;
 }

@@ -8,25 +8,6 @@ export enum Theme {
   dark = 'dark',
 }
 
-export const colors = {
-  darkTheme: {
-    textColor: '#cfd0d1',
-    tooltip: {
-      backgroundColor: '#212326',
-    },
-    partialsChartColor: '#46e8eb',
-    proofTimesColor: '#c6d8d3',
-  },
-  lightTheme: {
-    textColor: '#000',
-    tooltip: {
-      backgroundColor: '#fff',
-    },
-    partialsChartColor: '#236263',
-    proofTimesColor: '#859993',
-  },
-}
-
 @Injectable({
   providedIn: 'root'
 })
