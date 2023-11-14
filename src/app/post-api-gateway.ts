@@ -8,7 +8,7 @@ export class PostApiGateway {
 
   constructor() {
     this.client = axios.create({
-      baseURL: 'https://api2.foxypool.io/api/v2',
+      baseURL: 'https://api2.foxypool.io/api/v3',
     })
   }
 
