@@ -43,8 +43,10 @@ export class ThemeProvider implements OnDestroy {
       this.theme$.subscribe(theme => {
         if (theme === Theme.dark) {
           document.body.classList.add('dark-theme')
+          document.body.setAttribute('data-bs-theme', 'dark')
         } else {
           document.body.classList.remove('dark-theme')
+          document.body.setAttribute('data-bs-theme', 'light')
         }
       }),
       this.theme$.pipe(skip(1)).subscribe(theme => {

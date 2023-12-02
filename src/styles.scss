@@ -4,6 +4,9 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'ngx-toastr/toastr-bs5-alert';
 
+$form-select-indicator-color: #cfd0d1;
+$input-placeholder-color: #6c757d;
+
 body {
   --text-color: #000;
   --background-color: #f3f6f9;
@@ -34,16 +37,17 @@ body.dark-theme {
   --highlight-color-hover: rgba(255, 255, 255, 0.9);
   --footer-spacer-background-image: url('./app/footer/spacer.svg');
   --badge-color: #cfd0d1;
+  --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
+}
+
+.tooltip {
+  --bs-tooltip-color: white;
+  --bs-tooltip-bg: black;
 }
 
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-}
-
-table {
-  background-color: var(--background-color) !important;
-  color: var(--text-color) !important;
 }
 
 .table th {
@@ -73,6 +77,21 @@ html, body {
 
 .card {
   background-color: var(--card-background-color);
+  color: var(--text-color);
+}
+
+.pagination {
+  --bs-pagination-disabled-color: rgb(108, 117, 125);
+}
+.card-header {
+  --bs-card-cap-bg: rgba(0, 0, 0, 0.03);
+}
+
+.input-field:focus,
+.input-field:active,
+.input-field:focus:active {
+  background-color: var(--input-field-background-color);
+  color: var(--text-color);
 }
 
 @media (min-width: 1700px) {
