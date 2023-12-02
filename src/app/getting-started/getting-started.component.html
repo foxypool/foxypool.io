@@ -1,0 +1,74 @@
+<div class="row mt-3 justify-content-center">
+  <div class="col-12 col-md-10">
+    <div class="p-3 jumbotron rounded">
+      <div class="row">
+        <div class="col-12 text-center">
+          <img src="{{titleImageUrl$ | async}}" class="w-100" style="max-width: 550px;">
+        </div>
+        <div class="col-12">
+          <div class="d-flex justify-content-center lead text-muted">
+            <ul>
+              <li class="ls-none">
+                <fa-icon [icon]="faCheck" class="color-green"></fa-icon> Extensive farming dashboard, settings & notifications
+              </li>
+              <li class="ls-none">
+                <fa-icon [icon]="faCheck" class="color-green"></fa-icon> NFT & OG plots supported
+              </li>
+              <li class="ls-none">
+                <fa-icon [icon]="faCheck" class="color-green"></fa-icon> Gigahorse, BladeBit and uncompressed plots supported
+              </li>
+              <li class="ls-none">
+                <fa-icon [icon]="faCheck" class="color-green"></fa-icon> Light Farmers for all plots available
+              </li>
+              <li class="ls-none">
+                <fa-icon [icon]="faCheck" class="color-green"></fa-icon> Free daily payouts
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="d-flex justify-content-center">
+            <a class="btn btn-success text-decoration-none" href="https://docs.foxypool.io/proof-of-spacetime/foxy-pool/pools/chia/getting-started/" target="_blank">Join Pool <fa-icon [icon]="faArrowRight"></fa-icon></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-3 justify-content-center">
+  <div class="col-12 col-md-10">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2 g-md-3">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">New to CHIA farming?</h5>
+            <p class="card-text">
+              For users new to CHIA we put together a <a href="https://docs.foxypool.io/proof-of-spacetime/getting-started/" target="_blank">Getting Started Guide</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">FlexFarmer migration</h5>
+            <p class="card-text">
+              You were using FlexFarmer and want to migrate to Foxy-Pool? Check out <a href="https://docs.foxypool.io/proof-of-spacetime/guides/switching-from-flex-farmer-to-foxy/" target="_blank">this guide</a> on how to migrate
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Light Farmers</h5>
+            <p class="card-text">
+              <span [innerHTML]="availableLightFarmersHtml"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -5,11 +5,11 @@ import {PostApiGateway} from '../post-api-gateway'
 import Capacity from '../capacity'
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: 'app-pool-list',
+  templateUrl: './pool-list.component.html',
+  styleUrls: ['./pool-list.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class PoolListComponent implements OnInit {
   public get cardRowClasses(): string[] {
     const poolCount = this.postPools.length
 

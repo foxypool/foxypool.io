@@ -21,6 +21,7 @@ body {
   --highlight-color-hover: rgba(0, 0, 0, 0.6);
   --footer-spacer-background-image: url('./app/footer/spacer-light.svg');
   --badge-color: #fff;
+  --jumbotron-background-color: #e6e8eb;
 }
 
 body.dark-theme {
@@ -38,6 +39,11 @@ body.dark-theme {
   --footer-spacer-background-image: url('./app/footer/spacer.svg');
   --badge-color: #cfd0d1;
   --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
+  --jumbotron-background-color: #2f3136;
+}
+
+.jumbotron {
+  background-color: var(--jumbotron-background-color);
 }
 
 .tooltip {
@@ -106,4 +112,11 @@ html, body {
     padding-left: 7%;
     padding-right: 7%;
   }
+}
+.no-wrap {
+  white-space: nowrap;
+}
+$color-green: rgb(70,207,118);
+.color-green {
+  color: $color-green;
 }

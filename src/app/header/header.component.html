@@ -1,13 +1,28 @@
-<nav class="navbar navbar-expand-lg sticky-navbar" [ngClass]="navbarClasses">
+<nav class="navbar navbar-expand-sm sticky-navbar" [ngClass]="navbarClasses">
   <a class="navbar-brand text-decoration-none">
     <img src="https://static.foxypool.io/assets/icon/fox.svg" width="34" height="34" alt="">
-    <span style="font-weight: 300; font-size: 1.1em;margin-left: 8px;vertical-align: top">Foxy-Pool Overview</span>
+    <span class="navbar-title">Foxy-Pool</span>
   </a>
   <button class="navbar-toggler" type="button" (click)="toggleMenuCollapse()">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
-    <ul class="navbar-nav me-auto"></ul>
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item">
+        <a class="nav-link">
+          <button type="button" class="btn btn-outline-primary no-wrap" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="onTabButtonClick()">
+            Getting Started
+          </button>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link">
+          <button type="button" class="btn btn-outline-primary no-wrap" routerLink="/pools" routerLinkActive="active" (click)="onTabButtonClick()">
+            Pools
+          </button>
+        </a>
+      </li>
+    </ul>
     <div class="d-flex flex-wrap flex-md-nowrap align-items-center">
       <div class="header-row-item theme-selector">
         <div class="theme-switcher-container">

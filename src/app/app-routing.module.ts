@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
-import {DashboardComponent} from './dashboard/dashboard.component'
+import {PoolListComponent} from './pool-list/pool-list.component'
+import {GettingStartedComponent} from './getting-started/getting-started.component'
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent, pathMatch: 'full' },
+  { path: '', component: GettingStartedComponent, pathMatch: 'full' },
+  { path: 'pools', component: PoolListComponent, pathMatch: 'full' },
   { path: '**', redirectTo: '' }
 ]
 

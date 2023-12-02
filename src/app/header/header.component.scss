@@ -7,6 +7,24 @@
   padding-right: 1em;
   box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.07), inset 0 -1px 0 rgba(0,0,0,0.07);
 }
+@media (max-width: 1200px) {
+  .navbar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 576px) {
+  .nav-item {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+.navbar-title {
+  font-weight: 300;
+  font-size: 1.1em;
+  margin-left: 8px;
+  vertical-align: top;
+}
 @media (min-width: 1700px) {
   .sticky-navbar {
     padding-left: 4%;

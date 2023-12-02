@@ -7,7 +7,7 @@ import { HeaderComponent } from './header/header.component'
 import { FooterComponent } from './footer/footer.component'
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome'
 import {FormsModule} from '@angular/forms'
-import { DashboardComponent } from './dashboard/dashboard.component'
+import { PoolListComponent } from './pool-list/pool-list.component'
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
 import { ServiceWorkerModule } from '@angular/service-worker'
 import { environment } from '../environments/environment'
@@ -20,7 +20,7 @@ import {LoadingStateComponent} from './loading-state/loading-state.component'
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    DashboardComponent,
+    PoolListComponent,
     LoadingStateComponent,
   ],
   imports: [

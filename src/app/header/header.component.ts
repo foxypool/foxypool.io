@@ -40,4 +40,8 @@ export class HeaderComponent {
   public toggleMenuCollapse() {
     this.isMenuCollapsed = !this.isMenuCollapsed
   }
+
+  public onTabButtonClick() {
+    this.isMenuCollapsed = true
+  }
 }
