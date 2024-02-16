@@ -21,9 +21,6 @@ export class GettingStartedComponent {
       name: 'Foxy-Farmer',
       link: 'https://docs.foxypool.io/proof-of-spacetime/foxy-farmer/',
     }, {
-      name: 'Foxy-GH-Farmer',
-      link: 'https://docs.foxypool.io/proof-of-spacetime/foxy-gh-farmer/',
-    }, {
       name: 'Fast Farmer',
       link: 'https://docs.foxypool.io/proof-of-spacetime/fast-farmer/',
     }]
