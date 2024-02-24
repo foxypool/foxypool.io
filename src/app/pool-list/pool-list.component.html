@@ -1,6 +1,7 @@
-<div *ngIf="showTable" class="table-responsive-lg">
-  <table class="table">
-    <thead>
+<div *ngIf="showTable" class="p-3 jumbotron rounded">
+  <div class="table-responsive-lg">
+    <table class="table">
+      <thead>
       <tr>
         <th scope="col">Pool</th>
         <th scope="col">Algorithm</th>
@@ -10,8 +11,8 @@
         <th scope="col">Miner</th>
         <th scope="col">NetDiff</th>
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
       <tr *ngFor="let pool of postPools">
         <td style="width: 16em;">
           <a href="{{pool.url}}" target="_blank" style="text-decoration: none;">
@@ -54,10 +55,11 @@
           <app-loading-state [height]="2" [width]="2" fontSize="12px"></app-loading-state>
         </td>
       </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
-<div *ngIf="!showTable" style="padding-bottom: 3em">
+<div *ngIf="!showTable">
   <div class="row row-cols-1 g-2" [ngClass]="cardRowClasses">
     <div class="col" *ngFor="let pool of postPools">
       <div class="card">

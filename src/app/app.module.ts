@@ -14,6 +14,7 @@ import { environment } from '../environments/environment'
 import {ToastrModule} from 'ngx-toastr'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {LoadingStateComponent} from './loading-state/loading-state.component'
+import {GettingStartedComponent} from './getting-started/getting-started.component'
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {LoadingStateComponent} from './loading-state/loading-state.component'
     HeaderComponent,
     FooterComponent,
     PoolListComponent,
+    GettingStartedComponent,
     LoadingStateComponent,
   ],
   imports: [

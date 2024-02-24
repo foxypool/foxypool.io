@@ -28,3 +28,9 @@ th {
 .card-pool-image-wrapper {
   border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;
 }
+.table th {
+  background-color: var(--jumbotron-background-color);
+}
+.table td {
+  background-color: var(--jumbotron-background-color);
+}

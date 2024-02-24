@@ -1,17 +1,10 @@
 import {Component} from '@angular/core'
 import {faArrowRight, faCheck} from '@fortawesome/free-solid-svg-icons'
-import {FaIconComponent} from '@fortawesome/angular-fontawesome'
 import {Theme, ThemeProvider} from '../theme-provider'
 import {map, Observable} from 'rxjs'
-import {AsyncPipe} from '@angular/common'
 
 @Component({
   selector: 'app-getting-started',
-  standalone: true,
-  imports: [
-    FaIconComponent,
-    AsyncPipe
-  ],
   templateUrl: './getting-started.component.html',
   styleUrl: './getting-started.component.scss'
 })

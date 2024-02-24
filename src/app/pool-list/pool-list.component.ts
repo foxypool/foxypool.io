@@ -34,7 +34,7 @@ export class PoolListComponent implements OnInit {
   }
 
   get showTable() {
-    return window.innerWidth >= 945
+    return window.innerWidth >= 1080
   }
 
   get postPools() {
