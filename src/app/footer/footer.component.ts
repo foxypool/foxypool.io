@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import {faDiscord, faGithub, faTelegram, faTwitter} from '@fortawesome/free-brands-svg-icons'
+import {faDiscord, faGithub, faTelegram, faTwitter, faXTwitter} from '@fortawesome/free-brands-svg-icons'
 import * as moment from 'moment'
 
 @Component({
@@ -12,7 +12,7 @@ export class FooterComponent {
   public faDiscord = faDiscord
   public readonly faTelegram = faTelegram
   public faGithub = faGithub
-  public faTwitter = faTwitter
+  public faXTwitter = faXTwitter
 
   public currentYear: string = moment().format('YYYY')
 }
