@@ -9,18 +9,6 @@ import {map, Observable} from 'rxjs'
   styleUrl: './getting-started.component.scss'
 })
 export class GettingStartedComponent {
-  public get availableLightFarmersHtml(): string {
-    const lightFarmers = [{
-      name: 'Foxy-Farmer',
-      link: 'https://docs.foxypool.io/proof-of-spacetime/foxy-farmer/',
-    }, {
-      name: 'Fast Farmer',
-      link: 'https://docs.foxypool.io/proof-of-spacetime/fast-farmer/',
-    }]
-
-    return lightFarmers.map(lightFarmer => `<a href="${lightFarmer.link}" target="_blank">${lightFarmer.name}</a>`).join(', ')
-  }
-
   protected readonly faCheck = faCheck
   protected readonly faArrowRight = faArrowRight
   protected readonly titleImageUrl$: Observable<string>

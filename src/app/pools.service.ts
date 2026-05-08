@@ -14,15 +14,6 @@ export class PoolsService {
       poolIdentifier: 'chia',
       isPoStPool: true,
       ticker: 'XCH',
-    }, {
-      coin: 'CHIA',
-      name: 'Foxy-Pool CHIA (OG)',
-      url: 'https://chia-og.foxypool.io',
-      color: '#0D324D',
-      poolIdentifier: 'chia-og',
-      isPoStPool: true,
-      imageName: 'chia-og',
-      ticker: 'XCH',
     },
   ]
 
